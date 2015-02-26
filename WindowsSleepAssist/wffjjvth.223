@@ -1,0 +1,92 @@
+﻿namespace WindowsSleepAssist
+{
+    partial class SleepAssistMain
+    {
+        /// <summary>
+        /// Required designer variable.
+        /// </summary>
+        private System.ComponentModel.IContainer components = null;
+
+        /// <summary>
+        /// Clean up any resources being used.
+        /// </summary>
+        /// <param name="disposing">true if managed resources should be disposed; otherwise, false.</param>
+        protected override void Dispose(bool disposing)
+        {
+            if (disposing && (components != null))
+            {
+                components.Dispose();
+            }
+            base.Dispose(disposing);
+        }
+
+        #region Windows Form Designer generated code
+
+        /// <summary>
+        /// Required method for Designer support - do not modify
+        /// the contents of this method with the code editor.
+        /// </summary>
+        private void InitializeComponent()
+        {
+            this.lblPowerCfg = new System.Windows.Forms.Label();
+            this.lblPowercfgOutput = new System.Windows.Forms.Label();
+            this.gpBoxPowerCfg = new System.Windows.Forms.GroupBox();
+            this.gpBoxPowerCfg.SuspendLayout();
+            this.SuspendLayout();
+            // 
+            // lblPowerCfg
+            // 
+            this.lblPowerCfg.AutoSize = true;
+            this.lblPowerCfg.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblPowerCfg.Location = new System.Drawing.Point(6, 16);
+            this.lblPowerCfg.Margin = new System.Windows.Forms.Padding(3, 0, 3, 10);
+            this.lblPowerCfg.Name = "lblPowerCfg";
+            this.lblPowerCfg.Size = new System.Drawing.Size(219, 13);
+            this.lblPowerCfg.TabIndex = 0;
+            this.lblPowerCfg.Text = "What\'s keeping my computer awake:.";
+            // 
+            // lblPowercfgOutput
+            // 
+            this.lblPowercfgOutput.AutoSize = true;
+            this.lblPowercfgOutput.Location = new System.Drawing.Point(6, 39);
+            this.lblPowercfgOutput.Name = "lblPowercfgOutput";
+            this.lblPowercfgOutput.Size = new System.Drawing.Size(35, 13);
+            this.lblPowercfgOutput.TabIndex = 1;
+            this.lblPowercfgOutput.Text = "label2";
+            // 
+            // gpBoxPowerCfg
+            // 
+            this.gpBoxPowerCfg.AutoSize = true;
+            this.gpBoxPowerCfg.Controls.Add(this.lblPowerCfg);
+            this.gpBoxPowerCfg.Controls.Add(this.lblPowercfgOutput);
+            this.gpBoxPowerCfg.Location = new System.Drawing.Point(2, 12);
+            this.gpBoxPowerCfg.Name = "gpBoxPowerCfg";
+            this.gpBoxPowerCfg.Size = new System.Drawing.Size(276, 68);
+            this.gpBoxPowerCfg.TabIndex = 2;
+            this.gpBoxPowerCfg.TabStop = false;
+            this.gpBoxPowerCfg.Text = "Active Requests";
+            // 
+            // SleepAssistMain
+            // 
+            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
+            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.ClientSize = new System.Drawing.Size(978, 578);
+            this.Controls.Add(this.gpBoxPowerCfg);
+            this.Name = "SleepAssistMain";
+            this.Text = "Form1";
+            this.Load += new System.EventHandler(this.SleepAssistMain_Load);
+            this.gpBoxPowerCfg.ResumeLayout(false);
+            this.gpBoxPowerCfg.PerformLayout();
+            this.ResumeLayout(false);
+            this.PerformLayout();
+
+        }
+
+        #endregion
+
+        private System.Windows.Forms.Label lblPowerCfg;
+        private System.Windows.Forms.Label lblPowercfgOutput;
+        private System.Windows.Forms.GroupBox gpBoxPowerCfg;
+    }
+}
+
