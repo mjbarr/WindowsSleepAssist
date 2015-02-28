@@ -39,6 +39,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ISleepAssistService.cs" />
+    <Compile Include="SharedMemory.cs" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="System" />

@@ -5,6 +5,7 @@ using System.ComponentModel;
 using System.Configuration.Install;
 using System.Data;
 using System.Diagnostics;
+using System.IO.MemoryMappedFiles;
 using System.Linq;
 using System.Reflection;
 using System.Runtime.InteropServices;
@@ -16,7 +17,7 @@ using WcfInterface;
 
 namespace WindowsSleepAssistService
 {
-    public partial class WindowsSleepAssistService : ServiceBase, ISleepAssistService
+    public partial class WindowsSleepAssistService : ServiceBase
     {
         #region Fields
 
@@ -24,6 +25,8 @@ namespace WindowsSleepAssistService
         private EventLog m_eventLog;
         private ServiceStatus serviceStatus;
         private SleepAssist sleepAssistController;
+        private SleepAssistData sleepAssistData;
+        private SharedMemory<SleepAssistData> sharedMem;
 
         #endregion Fields
 
@@ -42,46 +45,54 @@ namespace WindowsSleepAssistService
             //m_eventLog.Log = "WindowsSleepAssistEventLog";
 
             sleepAssistController = new SleepAssist();
+            sleepAssistData = new SleepAssistData();
+            sharedMem = new SharedMemory<SleepAssistData>(@"Global\wsa_trafficIn", 32);
             sleepAssistController.NetworkSpeedUpdated += sleepAssistController_NetworkSpeedUpdated;
+            sleepAssistController.PowerCfgUpdated += sleepAssistController_PowerCfgUpdated;
+        }
 
-            initInboundNamedPipe();
-            initOutboundNamedPipe();
+        private void sleepAssistController_PowerCfgUpdated(object sender, PowerCfgEventArgs e)
+        {
+            readFromSharedMemory();
+            sleepAssistData.powerRequests = e.powerRequests;
+            writeToSharedMemory();
         }
 
         private void sleepAssistController_NetworkSpeedUpdated(object sender, NetworkSpeedEventArgs e)
         {
-            try
-            {
-                clientProxy.setTrafficIn(e.inboundSpeed);
-                clientProxy.setTrafficOut(e.outboundSpeed);
-            }
-            catch (System.TimeoutException exception)
-            {
-                Console.WriteLine("Got {0}", exception.GetType());
-            }
-            catch (CommunicationException exception)
-            {
-                Console.WriteLine("Got {0}", exception.GetType());
-                pipeFactory.Abort();
-                initOutboundNamedPipe();
-            }
-            catch (NullReferenceException exception)
-            {
-                Console.WriteLine("Got {0}", exception.GetType());
-            }
+            readFromSharedMemory();
+            sleepAssistData.trafficIn = e.inboundSpeed;
+            sleepAssistData.trafficOut = e.outboundSpeed;
+            writeToSharedMemory();
         }
 
-        private ChannelFactory<ISleepAssistClient> pipeFactory;
-
-        private void initOutboundNamedPipe()
+        private void writeToSharedMemory()
         {
-            pipeFactory =
-   new ChannelFactory<ISleepAssistClient>(
-      new NetNamedPipeBinding(),
-      new EndpointAddress(
-          "net.pipe://localhost/ToClient"));
+            if (!sharedMem.Open())
+            {
+                sharedMem = new SharedMemory<SleepAssistData>(@"Global\wsa_trafficIn", 128);
+            }
+            if (!sharedMem.Open()) return;
+            sharedMem.Data = sleepAssistData;
+        }
 
-            clientProxy = pipeFactory.CreateChannel();
+        private void readFromSharedMemory()
+        {
+            if (!sharedMem.Open())
+            {
+                sharedMem = new SharedMemory<SleepAssistData>(@"Global\wsa_trafficIn", 32);
+            }
+            if (!sharedMem.Open()) return;
+            sleepAssistData = sharedMem.Data;
+        }
+
+        private void closeSharedMemory()
+        {
+            try
+            {
+                sharedMem.Close();
+            }
+            catch { }
         }
 
         #endregion Constructors
@@ -130,8 +141,6 @@ namespace WindowsSleepAssistService
 
         #endregion Enums
 
-        private ISleepAssistClient clientProxy;
-
         private static void handleServiceInstallation(string[] args)
         {
             string parameter = string.Concat(args);
@@ -170,43 +179,6 @@ namespace WindowsSleepAssistService
                           };
             ServiceBase.Run(servicesToRun);
         }
-
-        private void initInboundNamedPipe()
-        {
-            using (ServiceHost host = new ServiceHost(
-                typeof(WindowsSleepAssistService),
-                new Uri[]
-                    {
-                        new Uri("net.pipe://localhost/")
-                    }))
-            {
-                host.AddServiceEndpoint(typeof(ISleepAssistService),
-                    new NetNamedPipeBinding(),
-                    "ToServer");
-
-                host.Open();
-                host.Close();
-            }
-        }
-
-        #region ISleepAssistServiceImplementation
-
-        public long getTrafficIn()
-        {
-            return 123;
-        }
-
-        public long getTrafficOut()
-        {
-            return 456;
-        }
-
-        public void requestConnection()
-        {
-            initOutboundNamedPipe();
-        }
-
-        #endregion ISleepAssistServiceImplementation
 
         [StructLayout(LayoutKind.Sequential)]
         public struct ServiceStatus

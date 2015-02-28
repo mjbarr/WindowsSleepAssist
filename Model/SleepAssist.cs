@@ -6,8 +6,6 @@ using System.Threading.Tasks;
 
 namespace Model
 {
-
-
     public class SleepAssist
     {
         private PowerSettings m_PowerSettings;
@@ -31,7 +29,9 @@ namespace Model
         }
 
         public delegate void NetworkSpeedUpdatedEventHandler(object sender, NetworkSpeedEventArgs e);
+
         public event NetworkSpeedUpdatedEventHandler NetworkSpeedUpdated;
+
         // Invoke the Changed event; called whenever list changes
         protected virtual void OnChanged(NetworkSpeedEventArgs e)
         {
@@ -39,7 +39,15 @@ namespace Model
                 NetworkSpeedUpdated(this, e);
         }
 
+        public delegate void PowerCfgUpdatedEventHandler(object sender, PowerCfgEventArgs e);
+
+        public event PowerCfgUpdatedEventHandler PowerCfgUpdated;
+
+        // Invoke the Changed event; called whenever list changes
+        protected virtual void OnChanged(PowerCfgEventArgs e)
+        {
+            if (PowerCfgUpdated != null)
+                PowerCfgUpdated(this, e);
+        }
     }
-
-
 }

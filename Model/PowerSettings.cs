@@ -5,13 +5,28 @@ using System.Linq;
 using System.Security.Principal;
 using System.Text;
 using System.Threading.Tasks;
+using System.Timers;
 
 namespace Model
 {
-
-
     public class PowerSettings
     {
+        private Timer timer;
+        private string requests;
+
+        public PowerSettings()
+        {
+            timer = new Timer();
+            timer.Interval = 15000;
+            timer.Elapsed += timer_Elapsed;
+        }
+
+        private void timer_Elapsed(object sender, ElapsedEventArgs e)
+        {
+            PowerCfgEventArgs eventArgs = new PowerCfgEventArgs();
+            eventArgs.powerRequests = PowerCfgRequests;
+            OnChanged(eventArgs);
+        }
 
         public bool IsUserAdministrator()
         {
@@ -35,7 +50,6 @@ namespace Model
 
         public String PowerCfgRequests
         {
-
             get
             {
                 if (IsUserAdministrator())
@@ -59,8 +73,21 @@ namespace Model
                 }
             }
         }
+
+        internal delegate void PowerCfgUpdatedEventHandler(object sender, PowerCfgEventArgs e);
+
+        internal event PowerCfgUpdatedEventHandler PowerCfgUpdated;
+
+        // Invoke the Changed event; called whenever list changes
+        internal virtual void OnChanged(PowerCfgEventArgs e)
+        {
+            if (PowerCfgUpdated != null)
+                PowerCfgUpdated(this, e);
+        }
+    }
+
+    public class PowerCfgEventArgs : EventArgs
+    {
+        public string powerRequests { get; set; }
     }
 }
-           
-            
-

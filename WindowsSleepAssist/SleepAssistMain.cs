@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
 using System.Drawing;
+using System.IO.MemoryMappedFiles;
 using System.Linq;
 using System.Security.Permissions;
 using System.ServiceModel;
@@ -14,11 +15,10 @@ using WcfInterface;
 
 namespace WindowsSleepAssist
 {
-    public partial class SleepAssistMain : Form, ISleepAssistClient
+    public partial class SleepAssistMain : Form
     {
         #region Fields
 
-        private ISleepAssistService serviceProxy;
         //private SleepAssist sleepAssist;
 
         #endregion Fields
@@ -30,38 +30,29 @@ namespace WindowsSleepAssist
             //sleepAssist = new SleepAssist();
             //sleepAssist.NetworkSpeedUpdated += sleepAssist_NetworkSpeedUpdated;
             InitializeComponent();
-            initInboundPipe();
-            initOutboundPipe();
+            startTimer();
         }
 
-        private static void initInboundPipe()
+        private void startTimer()
         {
-            using (ServiceHost host = new ServiceHost(
-                typeof(SleepAssistMain),
-                 new Uri[]
-                    {
-                       new Uri( "net.pipe://localhost")
-                    }))
-            {
-                host.AddServiceEndpoint(typeof(ISleepAssistClient),
-                    new NetNamedPipeBinding(),
-                    "ToClient");
-
-                host.Open();
-                //host.Close();
-            }
+            Timer timer = new Timer();
+            timer.Interval = 1000;
+            timer.Tick += timer_Tick;
+            timer.Start();
         }
 
-        private void initOutboundPipe()
+        private void timer_Tick(object sender, EventArgs e)
         {
-            ChannelFactory<ISleepAssistService> pipeFactory =
-                new ChannelFactory<ISleepAssistService>(
-                    new NetNamedPipeBinding(),
-                    new EndpointAddress(
-                        "net.pipe://localhost/ToServer"));
+            SharedMemory<SleepAssistData> sharedMem = new SharedMemory<SleepAssistData>(@"Global\wsa_trafficIn", 128, true);
 
-            serviceProxy = pipeFactory.CreateChannel();
-            // serviceProxy.requestConnection();
+            if (!sharedMem.Open()) return;
+
+            SleepAssistData sleepAssistData = new SleepAssistData();
+            sleepAssistData = sharedMem.Data;
+
+            lblInboundTraffic.Text = BytesToString(sleepAssistData.trafficIn);
+            lblOutboundTraffic.Text = BytesToString(sleepAssistData.trafficOut);
+            lblPowercfgOutput.Text = sleepAssistData.powerRequests;
         }
 
         #endregion Constructors
@@ -97,14 +88,14 @@ namespace WindowsSleepAssist
 
         #endregion Methods
 
-        void ISleepAssistClient.setTrafficIn(long trafficIn)
-        {
-            lblInboundTraffic.Invoke(new MethodInvoker(delegate { lblInboundTraffic.Text = BytesToString(trafficIn).ToString(); }));
-        }
+        //void ISleepAssistClient.setTrafficIn(long trafficIn)
+        //{
+        //    lblInboundTraffic.Invoke(new MethodInvoker(delegate { lblInboundTraffic.Text = BytesToString(trafficIn).ToString(); }));
+        //}
 
-        void ISleepAssistClient.setTrafficOut(long trafficOut)
-        {
-            lblOutboundTraffic.Invoke(new MethodInvoker(delegate { lblOutboundTraffic.Text = BytesToString(trafficOut).ToString(); }));
-        }
+        //void ISleepAssistClient.setTrafficOut(long trafficOut)
+        //{
+        //    lblOutboundTraffic.Invoke(new MethodInvoker(delegate { lblOutboundTraffic.Text = BytesToString(trafficOut).ToString(); }));
+        //}
     }
 }
