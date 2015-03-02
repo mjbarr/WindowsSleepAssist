@@ -43,16 +43,14 @@ namespace WindowsSleepAssist
 
         private void timer_Tick(object sender, EventArgs e)
         {
-            SharedMemory<SleepAssistData> sharedMem = new SharedMemory<SleepAssistData>(@"Global\wsa_trafficIn", 128, true);
-
-            if (!sharedMem.Open()) return;
+            SharedMemory sharedMem = new SharedMemory(@"Global\wsa_trafficIn");
 
             SleepAssistData sleepAssistData = new SleepAssistData();
-            sleepAssistData = sharedMem.Data;
+            sleepAssistData = (SleepAssistData)sharedMem.ReadObjectFromMMF(@"Global\wsa_trafficIn");
 
             lblInboundTraffic.Text = BytesToString(sleepAssistData.trafficIn);
             lblOutboundTraffic.Text = BytesToString(sleepAssistData.trafficOut);
-            //lblPowercfgOutput.Text = sleepAssistData.powerRequests;
+            lblPowercfgOutput.Text = sleepAssistData.powerRequests;
         }
 
         #endregion Constructors
