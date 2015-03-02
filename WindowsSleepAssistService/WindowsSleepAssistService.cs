@@ -54,7 +54,7 @@ namespace WindowsSleepAssistService
         private void sleepAssistController_PowerCfgUpdated(object sender, PowerCfgEventArgs e)
         {
             readFromSharedMemory();
-            sleepAssistData.powerRequests = e.powerRequests;
+            // sleepAssistData.powerRequests = e.powerRequests;
             writeToSharedMemory();
         }
 

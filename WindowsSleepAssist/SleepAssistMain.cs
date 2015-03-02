@@ -36,7 +36,7 @@ namespace WindowsSleepAssist
         private void startTimer()
         {
             Timer timer = new Timer();
-            timer.Interval = 1000;
+            timer.Interval = 15000;
             timer.Tick += timer_Tick;
             timer.Start();
         }
@@ -52,7 +52,7 @@ namespace WindowsSleepAssist
 
             lblInboundTraffic.Text = BytesToString(sleepAssistData.trafficIn);
             lblOutboundTraffic.Text = BytesToString(sleepAssistData.trafficOut);
-            lblPowercfgOutput.Text = sleepAssistData.powerRequests;
+            //lblPowercfgOutput.Text = sleepAssistData.powerRequests;
         }
 
         #endregion Constructors

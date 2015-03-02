@@ -10,10 +10,9 @@ namespace Model
 {
     internal class NetworkInfo
     {
-
-        Timer timer;
-        List<long> inboundTraffic;
-        List<long> outboundTraffic;
+        private Timer timer;
+        private List<long> inboundTraffic;
+        private List<long> outboundTraffic;
 
         internal NetworkInfo()
         {
@@ -21,10 +20,9 @@ namespace Model
             outboundTraffic = new List<long>();
 
             timer = new Timer();
-            timer.Interval = 1000;
+            timer.Interval = 15000;
             timer.Elapsed += timer_Elapsed;
             timer.Start();
-
         }
 
         private void timer_Elapsed(object sender, ElapsedEventArgs e)
@@ -32,12 +30,12 @@ namespace Model
             inboundTraffic.Add(TrafficIn);
             outboundTraffic.Add(TrafficOut);
 
-            while (inboundTraffic.Count > 60)
+            while (inboundTraffic.Count > 4)
             {
                 inboundTraffic.RemoveAt(0);
             }
 
-            while (outboundTraffic.Count > 60)
+            while (outboundTraffic.Count > 4)
             {
                 outboundTraffic.RemoveAt(0);
             }
@@ -48,8 +46,7 @@ namespace Model
             OnChanged(eventArgs);
         }
 
-
-        long InboundSpeed
+        private long InboundSpeed
         {
             get
             {
@@ -62,7 +59,7 @@ namespace Model
             }
         }
 
-        long OutboundSpeed
+        private long OutboundSpeed
         {
             get
             {
@@ -94,7 +91,7 @@ namespace Model
             get
             {
                 long totalOut = 0;
-                foreach (NetworkInterface  ni in getNetworkInterfaces())
+                foreach (NetworkInterface ni in getNetworkInterfaces())
                 {
                     totalOut += ni.GetIPv4Statistics().BytesSent;
                 }
@@ -108,18 +105,21 @@ namespace Model
         }
 
         internal delegate void NetworkSpeedUpdatedEventHandler(object sender, NetworkSpeedEventArgs e);
+
         internal event NetworkSpeedUpdatedEventHandler NetworkSpeedUpdated;
-              // Invoke the Changed event; called whenever list changes
-        internal virtual void OnChanged(NetworkSpeedEventArgs e) 
-      {
-         if (NetworkSpeedUpdated != null)
-            NetworkSpeedUpdated(this, e);
-      }
- 
+
+        // Invoke the Changed event; called whenever list changes
+        internal virtual void OnChanged(NetworkSpeedEventArgs e)
+        {
+            if (NetworkSpeedUpdated != null)
+                NetworkSpeedUpdated(this, e);
+        }
     }
+
     public class NetworkSpeedEventArgs : EventArgs
     {
         public long inboundSpeed { get; set; }
+
         public long outboundSpeed { get; set; }
     }
 }

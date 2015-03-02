@@ -88,6 +88,6 @@ namespace WcfInterface
     {
         public long trafficIn;
         public long trafficOut;
-        public String powerRequests;
+        // public String powerRequests;
     }
 }
