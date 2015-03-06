@@ -156,7 +156,8 @@ namespace WcfInterface
     {
         public long trafficIn;
         public long trafficOut;
-        public String powerRequests;
-        public long timeToSleep;
+        public string powerRequests;
+        public DateTime timeGoingToSleep;
+        public string lastWakeTrigger;
     }
 }

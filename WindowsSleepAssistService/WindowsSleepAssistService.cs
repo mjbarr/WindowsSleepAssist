@@ -25,8 +25,6 @@ namespace WindowsSleepAssistService
         private EventLog m_eventLog;
         private ServiceStatus serviceStatus;
         private SleepAssist sleepAssistController;
-        private SleepAssistData sleepAssistData;
-        private SharedMemory sharedMem;
 
         #endregion Fields
 
@@ -35,57 +33,12 @@ namespace WindowsSleepAssistService
         public WindowsSleepAssistService()
         {
             InitializeComponent();
-            //m_eventLog = new EventLog();
 
             if (!EventLog.SourceExists("WindowsSleepAssistService"))
             {
                 EventLog.CreateEventSource("WindowsSleepAssistService", "WindowsSleepAssistEventLog");
             }
-            //m_eventLog.Source = "WindowsSleepAssistService";
-            //m_eventLog.Log = "WindowsSleepAssistEventLog";
-
-            sleepAssistController = new SleepAssist();
-            sleepAssistData = new SleepAssistData();
-            sharedMem = new SharedMemory(@"Global\wsa_trafficIn");
-            sleepAssistController.NetworkSpeedUpdated += sleepAssistController_NetworkSpeedUpdated;
-            sleepAssistController.PowerCfgUpdated += sleepAssistController_PowerCfgUpdated;
         }
-
-        private void sleepAssistController_PowerCfgUpdated(object sender, PowerCfgEventArgs e)
-        {
-            readFromSharedMemory();
-            sleepAssistData.powerRequests = e.powerRequests;
-            writeToSharedMemory();
-        }
-
-        private void sleepAssistController_NetworkSpeedUpdated(object sender, NetworkSpeedEventArgs e)
-        {
-            readFromSharedMemory();
-            sleepAssistData.trafficIn = e.inboundSpeed;
-            sleepAssistData.trafficOut = e.outboundSpeed;
-            writeToSharedMemory();
-        }
-
-        private void writeToSharedMemory()
-        {
-            sharedMem = new SharedMemory(@"Global\wsa_trafficIn");
-            sharedMem.WriteObjectToMMF(@"Global\wsa_trafficIn", sleepAssistData);
-        }
-
-        private void readFromSharedMemory()
-        {
-            sharedMem = new SharedMemory(@"Global\wsa_trafficIn");
-            sleepAssistData = (SleepAssistData)sharedMem.ReadObjectFromMMF(@"Global\wsa_trafficIn");
-        }
-
-        //private void closeSharedMemory()
-        //{
-        //    try
-        //    {
-        //        sharedMem.Close();
-        //    }
-        //    catch { }
-        //}
 
         #endregion Constructors
 

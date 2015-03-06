@@ -19,6 +19,7 @@ namespace WindowsSleepAssist
     {
         #region Fields
 
+        private SleepAssistData sleepAssistData;
         //private SleepAssist sleepAssist;
 
         #endregion Fields
@@ -39,18 +40,36 @@ namespace WindowsSleepAssist
             timer.Interval = 15000;
             timer.Tick += timer_Tick;
             timer.Start();
+
+            Timer countDownTimer = new Timer();
+            countDownTimer.Interval = 1000;
+            countDownTimer.Tick += countDownTimer_Tick;
+            countDownTimer.Start();
+        }
+
+        private void countDownTimer_Tick(object sender, EventArgs e)
+        {
+            if (sleepAssistData != null && sleepAssistData.timeGoingToSleep != null)
+            {
+                TimeSpan timeSpan = sleepAssistData.timeGoingToSleep.Subtract(DateTime.Now);
+                string minutes = timeSpan.Minutes.ToString();
+                string seconds = timeSpan.Seconds.ToString();
+                lblSleepTimerValue.Text = (minutes + ":" + seconds);
+            }
         }
 
         private void timer_Tick(object sender, EventArgs e)
         {
             SharedMemory sharedMem = new SharedMemory(@"Global\wsa_trafficIn");
 
-            SleepAssistData sleepAssistData = new SleepAssistData();
+            sleepAssistData = new SleepAssistData();
             sleepAssistData = (SleepAssistData)sharedMem.ReadObjectFromMMF(@"Global\wsa_trafficIn");
 
             lblInboundTraffic.Text = BytesToString(sleepAssistData.trafficIn);
             lblOutboundTraffic.Text = BytesToString(sleepAssistData.trafficOut);
             lblPowercfgOutput.Text = sleepAssistData.powerRequests;
+            // lblSleepTimerValue.Text = sleepAssistData.timeGoingToSleep.ToShortTimeString();
+            lblLastWakeTriggerValue.Text = sleepAssistData.lastWakeTrigger;
         }
 
         #endregion Constructors

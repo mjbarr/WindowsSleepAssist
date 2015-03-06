@@ -47,11 +47,18 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="SleepAssist.cs" />
     <Compile Include="SleepController.cs" />
+    <Compile Include="UserInputMonitor.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="app.manifest">
       <SubType>Designer</SubType>
     </None>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\WcfInterface\WcfInterface.csproj">
+      <Project>{66de1ddf-7cfc-41e6-8d28-3e8cbe265adf}</Project>
+      <Name>WcfInterface</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

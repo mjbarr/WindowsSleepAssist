@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using WcfInterface;
 
 namespace Model
 {
@@ -11,51 +12,60 @@ namespace Model
         private PowerSettings m_PowerSettings;
         private NetworkInfo m_NetworkInfo;
         private SleepController m_SleepController;
+        private SleepAssistData sleepAssistData;
+        private SharedMemory m_sharedMem;
+        private UserInputMonitor m_userInputMonitor;
 
         public SleepAssist()
         {
+            sleepAssistData = new SleepAssistData();
+            m_sharedMem = new SharedMemory(@"Global\wsa_trafficIn");
+
             m_SleepController = new SleepController();
             m_PowerSettings = new PowerSettings();
-            m_PowerSettings.PowerCfgUpdated += m_PowerSettings_PowerCfgUpdated;
             m_NetworkInfo = new NetworkInfo();
             m_NetworkInfo.NetworkSpeedUpdated += m_NetworkInfo_NetworkSpeedUpdated;
-        }
-
-        private void m_PowerSettings_PowerCfgUpdated(object sender, PowerCfgEventArgs e)
-        {
-            OnPowerCfgChanged(e);
+            m_userInputMonitor = new UserInputMonitor();
         }
 
         private void m_NetworkInfo_NetworkSpeedUpdated(object sender, NetworkSpeedEventArgs e)
         {
-            OnNetworkSpeedChanged(e);
+            readFromSharedMemory();
+
+            if (e.resetSleepTimer)
+            {
+                m_SleepController.resetSleepTimer();
+                sleepAssistData.lastWakeTrigger = "Network Traffic";
+            }
+
+            DateTime lastInputTime = new DateTime(UserInputMonitor.GetLastInputTime());
+            if (lastInputTime < DateTime.Now.AddSeconds(-15))
+            {
+                // m_SleepController.resetSleepTimer(); sleepAssistData.lastWakeTrigger = "User Input";
+            }
+
+            sleepAssistData.trafficIn = e.inboundSpeed;
+            sleepAssistData.trafficOut = e.outboundSpeed;
+            sleepAssistData.powerRequests = m_PowerSettings.PowerCfgRequests;
+            sleepAssistData.timeGoingToSleep = m_SleepController.TimeGoingToSleep;
+            writeToSharedMemory();
+        }
+
+        private void writeToSharedMemory()
+        {
+            m_sharedMem = new SharedMemory(@"Global\wsa_trafficIn");
+            m_sharedMem.WriteObjectToMMF(@"Global\wsa_trafficIn", sleepAssistData);
+        }
+
+        private void readFromSharedMemory()
+        {
+            m_sharedMem = new SharedMemory(@"Global\wsa_trafficIn");
+            sleepAssistData = (SleepAssistData)m_sharedMem.ReadObjectFromMMF(@"Global\wsa_trafficIn");
         }
 
         public string getPowerCfgRequests()
         {
             return m_PowerSettings.PowerCfgRequests;
-        }
-
-        public delegate void NetworkSpeedUpdatedEventHandler(object sender, NetworkSpeedEventArgs e);
-
-        public event NetworkSpeedUpdatedEventHandler NetworkSpeedUpdated;
-
-        // Invoke the Changed event; called whenever list changes
-        protected virtual void OnNetworkSpeedChanged(NetworkSpeedEventArgs e)
-        {
-            if (NetworkSpeedUpdated != null)
-                NetworkSpeedUpdated(this, e);
-        }
-
-        public delegate void PowerCfgUpdatedEventHandler(object sender, PowerCfgEventArgs e);
-
-        public event PowerCfgUpdatedEventHandler PowerCfgUpdated;
-
-        // Invoke the Changed event; called whenever list changes
-        protected virtual void OnPowerCfgChanged(PowerCfgEventArgs e)
-        {
-            if (PowerCfgUpdated != null)
-                PowerCfgUpdated(this, e);
         }
     }
 }

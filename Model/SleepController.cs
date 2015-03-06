@@ -13,14 +13,33 @@ namespace Model
     {
         private int m_minsToTimeOut;
         private Timer sleepTimer;
+        private DateTime m_timeGoingToSleep;
 
         public SleepController()
         {
             m_minsToTimeOut = 10;
             sleepTimer = new Timer();
-            sleepTimer.Interval = 10 * 60 * 1000;
-            sleepTimer.Start();
+            sleepTimer.Interval = minsToMilliseconds(m_minsToTimeOut);
+            resetSleepTimer();
             sleepTimer.Elapsed += sleepTimer_Elapsed;
+        }
+
+        private long minsToMilliseconds(int mins)
+        {
+            return mins * 60 * 1000;
+        }
+
+        public DateTime TimeGoingToSleep
+        {
+            get
+            {
+                return m_timeGoingToSleep;
+            }
+
+            set
+            {
+                m_timeGoingToSleep = value;
+            }
         }
 
         private void sleepTimer_Elapsed(object sender, ElapsedEventArgs e)
@@ -36,6 +55,7 @@ namespace Model
         {
             sleepTimer.Stop();
             sleepTimer.Start();
+            TimeGoingToSleep = DateTime.Now.AddMinutes(m_minsToTimeOut);
         }
     }
 }

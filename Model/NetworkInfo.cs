@@ -49,7 +49,8 @@ namespace Model
 
         private bool shouldResetSleep()
         {
-            if ((InboundSpeed > 1000000) || (OutboundSpeed > 1000000){
+            if ((InboundSpeed > 1000000) || (OutboundSpeed > 1000000))
+            {
                 return true;
             }
             return false;

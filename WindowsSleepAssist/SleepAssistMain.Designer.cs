@@ -39,6 +39,8 @@
             this.gpSleepTimer = new System.Windows.Forms.GroupBox();
             this.lblSleepTimer = new System.Windows.Forms.Label();
             this.lblSleepTimerValue = new System.Windows.Forms.Label();
+            this.lblLastWakeTrigger = new System.Windows.Forms.Label();
+            this.lblLastWakeTriggerValue = new System.Windows.Forms.Label();
             this.gpBoxPowerCfg.SuspendLayout();
             this.gpBoxNetworkInfo.SuspendLayout();
             this.gpBoxNetworkInfoOutbound.SuspendLayout();
@@ -62,9 +64,9 @@
             this.lblPowercfgOutput.AutoSize = true;
             this.lblPowercfgOutput.Location = new System.Drawing.Point(6, 39);
             this.lblPowercfgOutput.Name = "lblPowercfgOutput";
-            this.lblPowercfgOutput.Size = new System.Drawing.Size(35, 13);
+            this.lblPowercfgOutput.Size = new System.Drawing.Size(87, 13);
             this.lblPowercfgOutput.TabIndex = 1;
-            this.lblPowercfgOutput.Text = "label2";
+            this.lblPowercfgOutput.Text = "Requesting Data";
             // 
             // gpBoxPowerCfg
             // 
@@ -105,9 +107,9 @@
             this.lblOutboundTraffic.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblOutboundTraffic.Location = new System.Drawing.Point(6, 20);
             this.lblOutboundTraffic.Name = "lblOutboundTraffic";
-            this.lblOutboundTraffic.Size = new System.Drawing.Size(57, 20);
+            this.lblOutboundTraffic.Size = new System.Drawing.Size(98, 20);
             this.lblOutboundTraffic.TabIndex = 1;
-            this.lblOutboundTraffic.Text = "label1";
+            this.lblOutboundTraffic.Text = "Calculating";
             // 
             // gpBoxNetworkInfoInbound
             // 
@@ -125,12 +127,14 @@
             this.lblInboundTraffic.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblInboundTraffic.Location = new System.Drawing.Point(6, 20);
             this.lblInboundTraffic.Name = "lblInboundTraffic";
-            this.lblInboundTraffic.Size = new System.Drawing.Size(57, 20);
+            this.lblInboundTraffic.Size = new System.Drawing.Size(98, 20);
             this.lblInboundTraffic.TabIndex = 0;
-            this.lblInboundTraffic.Text = "label1";
+            this.lblInboundTraffic.Text = "Calculating";
             // 
             // gpSleepTimer
             // 
+            this.gpSleepTimer.Controls.Add(this.lblLastWakeTriggerValue);
+            this.gpSleepTimer.Controls.Add(this.lblLastWakeTrigger);
             this.gpSleepTimer.Controls.Add(this.lblSleepTimerValue);
             this.gpSleepTimer.Controls.Add(this.lblSleepTimer);
             this.gpSleepTimer.Location = new System.Drawing.Point(627, 13);
@@ -158,6 +162,25 @@
             this.lblSleepTimerValue.Size = new System.Drawing.Size(19, 20);
             this.lblSleepTimerValue.TabIndex = 2;
             this.lblSleepTimerValue.Text = "0";
+            // 
+            // lblLastWakeTrigger
+            // 
+            this.lblLastWakeTrigger.AutoSize = true;
+            this.lblLastWakeTrigger.Location = new System.Drawing.Point(10, 62);
+            this.lblLastWakeTrigger.Name = "lblLastWakeTrigger";
+            this.lblLastWakeTrigger.Size = new System.Drawing.Size(138, 13);
+            this.lblLastWakeTrigger.TabIndex = 3;
+            this.lblLastWakeTrigger.Text = "Latest activity to reset timer:";
+            // 
+            // lblLastWakeTriggerValue
+            // 
+            this.lblLastWakeTriggerValue.AutoSize = true;
+            this.lblLastWakeTriggerValue.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblLastWakeTriggerValue.Location = new System.Drawing.Point(9, 77);
+            this.lblLastWakeTriggerValue.Name = "lblLastWakeTriggerValue";
+            this.lblLastWakeTriggerValue.Size = new System.Drawing.Size(145, 20);
+            this.lblLastWakeTriggerValue.TabIndex = 4;
+            this.lblLastWakeTriggerValue.Text = "Requesting Data";
             // 
             // SleepAssistMain
             // 
@@ -197,6 +220,8 @@
         private System.Windows.Forms.GroupBox gpSleepTimer;
         private System.Windows.Forms.Label lblSleepTimerValue;
         private System.Windows.Forms.Label lblSleepTimer;
+        private System.Windows.Forms.Label lblLastWakeTriggerValue;
+        private System.Windows.Forms.Label lblLastWakeTrigger;
     }
 }
 
