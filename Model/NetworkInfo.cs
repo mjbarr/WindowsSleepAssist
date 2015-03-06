@@ -43,7 +43,16 @@ namespace Model
             NetworkSpeedEventArgs eventArgs = new NetworkSpeedEventArgs();
             eventArgs.inboundSpeed = InboundSpeed;
             eventArgs.outboundSpeed = OutboundSpeed;
+            eventArgs.resetSleepTimer = shouldResetSleep();
             OnChanged(eventArgs);
+        }
+
+        private bool shouldResetSleep()
+        {
+            if ((InboundSpeed > 1000000) || (OutboundSpeed > 1000000){
+                return true;
+            }
+            return false;
         }
 
         private long InboundSpeed
@@ -121,5 +130,7 @@ namespace Model
         public long inboundSpeed { get; set; }
 
         public long outboundSpeed { get; set; }
+
+        public bool resetSleepTimer { get; set; }
     }
 }

@@ -32,14 +32,18 @@
             this.lblPowercfgOutput = new System.Windows.Forms.Label();
             this.gpBoxPowerCfg = new System.Windows.Forms.GroupBox();
             this.gpBoxNetworkInfo = new System.Windows.Forms.GroupBox();
-            this.gpBoxNetworkInfoInbound = new System.Windows.Forms.GroupBox();
             this.gpBoxNetworkInfoOutbound = new System.Windows.Forms.GroupBox();
-            this.lblInboundTraffic = new System.Windows.Forms.Label();
             this.lblOutboundTraffic = new System.Windows.Forms.Label();
+            this.gpBoxNetworkInfoInbound = new System.Windows.Forms.GroupBox();
+            this.lblInboundTraffic = new System.Windows.Forms.Label();
+            this.gpSleepTimer = new System.Windows.Forms.GroupBox();
+            this.lblSleepTimer = new System.Windows.Forms.Label();
+            this.lblSleepTimerValue = new System.Windows.Forms.Label();
             this.gpBoxPowerCfg.SuspendLayout();
             this.gpBoxNetworkInfo.SuspendLayout();
-            this.gpBoxNetworkInfoInbound.SuspendLayout();
             this.gpBoxNetworkInfoOutbound.SuspendLayout();
+            this.gpBoxNetworkInfoInbound.SuspendLayout();
+            this.gpSleepTimer.SuspendLayout();
             this.SuspendLayout();
             // 
             // lblPowerCfg
@@ -85,16 +89,6 @@
             this.gpBoxNetworkInfo.TabStop = false;
             this.gpBoxNetworkInfo.Text = "Network Traffic In Previous 60 Seconds";
             // 
-            // gpBoxNetworkInfoInbound
-            // 
-            this.gpBoxNetworkInfoInbound.Controls.Add(this.lblInboundTraffic);
-            this.gpBoxNetworkInfoInbound.Location = new System.Drawing.Point(7, 20);
-            this.gpBoxNetworkInfoInbound.Name = "gpBoxNetworkInfoInbound";
-            this.gpBoxNetworkInfoInbound.Size = new System.Drawing.Size(113, 77);
-            this.gpBoxNetworkInfoInbound.TabIndex = 0;
-            this.gpBoxNetworkInfoInbound.TabStop = false;
-            this.gpBoxNetworkInfoInbound.Text = "Inbound Traffic";
-            // 
             // gpBoxNetworkInfoOutbound
             // 
             this.gpBoxNetworkInfoOutbound.Controls.Add(this.lblOutboundTraffic);
@@ -104,16 +98,6 @@
             this.gpBoxNetworkInfoOutbound.TabIndex = 1;
             this.gpBoxNetworkInfoOutbound.TabStop = false;
             this.gpBoxNetworkInfoOutbound.Text = "Outbound Traffic";
-            // 
-            // lblInboundTraffic
-            // 
-            this.lblInboundTraffic.AutoSize = true;
-            this.lblInboundTraffic.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblInboundTraffic.Location = new System.Drawing.Point(6, 20);
-            this.lblInboundTraffic.Name = "lblInboundTraffic";
-            this.lblInboundTraffic.Size = new System.Drawing.Size(57, 20);
-            this.lblInboundTraffic.TabIndex = 0;
-            this.lblInboundTraffic.Text = "label1";
             // 
             // lblOutboundTraffic
             // 
@@ -125,11 +109,62 @@
             this.lblOutboundTraffic.TabIndex = 1;
             this.lblOutboundTraffic.Text = "label1";
             // 
+            // gpBoxNetworkInfoInbound
+            // 
+            this.gpBoxNetworkInfoInbound.Controls.Add(this.lblInboundTraffic);
+            this.gpBoxNetworkInfoInbound.Location = new System.Drawing.Point(7, 20);
+            this.gpBoxNetworkInfoInbound.Name = "gpBoxNetworkInfoInbound";
+            this.gpBoxNetworkInfoInbound.Size = new System.Drawing.Size(113, 77);
+            this.gpBoxNetworkInfoInbound.TabIndex = 0;
+            this.gpBoxNetworkInfoInbound.TabStop = false;
+            this.gpBoxNetworkInfoInbound.Text = "Inbound Traffic";
+            // 
+            // lblInboundTraffic
+            // 
+            this.lblInboundTraffic.AutoSize = true;
+            this.lblInboundTraffic.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblInboundTraffic.Location = new System.Drawing.Point(6, 20);
+            this.lblInboundTraffic.Name = "lblInboundTraffic";
+            this.lblInboundTraffic.Size = new System.Drawing.Size(57, 20);
+            this.lblInboundTraffic.TabIndex = 0;
+            this.lblInboundTraffic.Text = "label1";
+            // 
+            // gpSleepTimer
+            // 
+            this.gpSleepTimer.Controls.Add(this.lblSleepTimerValue);
+            this.gpSleepTimer.Controls.Add(this.lblSleepTimer);
+            this.gpSleepTimer.Location = new System.Drawing.Point(627, 13);
+            this.gpSleepTimer.Name = "gpSleepTimer";
+            this.gpSleepTimer.Size = new System.Drawing.Size(200, 100);
+            this.gpSleepTimer.TabIndex = 4;
+            this.gpSleepTimer.TabStop = false;
+            this.gpSleepTimer.Text = "Time To Sleep";
+            // 
+            // lblSleepTimer
+            // 
+            this.lblSleepTimer.AutoSize = true;
+            this.lblSleepTimer.Location = new System.Drawing.Point(7, 20);
+            this.lblSleepTimer.Name = "lblSleepTimer";
+            this.lblSleepTimer.Size = new System.Drawing.Size(135, 13);
+            this.lblSleepTimer.TabIndex = 0;
+            this.lblSleepTimer.Text = "Computer going to sleep in:";
+            // 
+            // lblSleepTimerValue
+            // 
+            this.lblSleepTimerValue.AutoSize = true;
+            this.lblSleepTimerValue.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblSleepTimerValue.Location = new System.Drawing.Point(6, 38);
+            this.lblSleepTimerValue.Name = "lblSleepTimerValue";
+            this.lblSleepTimerValue.Size = new System.Drawing.Size(19, 20);
+            this.lblSleepTimerValue.TabIndex = 2;
+            this.lblSleepTimerValue.Text = "0";
+            // 
             // SleepAssistMain
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(978, 578);
+            this.Controls.Add(this.gpSleepTimer);
             this.Controls.Add(this.gpBoxNetworkInfo);
             this.Controls.Add(this.gpBoxPowerCfg);
             this.Name = "SleepAssistMain";
@@ -138,10 +173,12 @@
             this.gpBoxPowerCfg.ResumeLayout(false);
             this.gpBoxPowerCfg.PerformLayout();
             this.gpBoxNetworkInfo.ResumeLayout(false);
-            this.gpBoxNetworkInfoInbound.ResumeLayout(false);
-            this.gpBoxNetworkInfoInbound.PerformLayout();
             this.gpBoxNetworkInfoOutbound.ResumeLayout(false);
             this.gpBoxNetworkInfoOutbound.PerformLayout();
+            this.gpBoxNetworkInfoInbound.ResumeLayout(false);
+            this.gpBoxNetworkInfoInbound.PerformLayout();
+            this.gpSleepTimer.ResumeLayout(false);
+            this.gpSleepTimer.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -157,6 +194,9 @@
         private System.Windows.Forms.Label lblOutboundTraffic;
         private System.Windows.Forms.GroupBox gpBoxNetworkInfoInbound;
         private System.Windows.Forms.Label lblInboundTraffic;
+        private System.Windows.Forms.GroupBox gpSleepTimer;
+        private System.Windows.Forms.Label lblSleepTimerValue;
+        private System.Windows.Forms.Label lblSleepTimer;
     }
 }
 

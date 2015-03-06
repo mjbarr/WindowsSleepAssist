@@ -69,8 +69,7 @@ namespace WcfInterface
             // Write the data
             mmfWriter.WriteArray<byte>(0, buffer, 0, buffer.Length);
             mmfWriter.Flush();
-
-            mutex.ReleaseMutex();
+            if (mutexCreated) mutex.ReleaseMutex();
         }
 
         public object ReadObjectFromMMF(string mmfFile)
@@ -84,7 +83,7 @@ namespace WcfInterface
                 mutex = new Mutex(true, "mmfMutex", out mutexCreated);
                 mutex.WaitOne();
                 // Create a view accessor from which to read the data
-                MemoryMappedViewAccessor mmfReader = mmf.CreateViewAccessor();
+                MemoryMappedViewAccessor mmfReader = mmf.CreateViewAccessor(0, 0, MemoryMappedFileAccess.Read);
 
                 // Create a data buffer and read entire MMF view into buffer
                 byte[] buffer = new byte[mmfReader.Capacity];
@@ -158,5 +157,6 @@ namespace WcfInterface
         public long trafficIn;
         public long trafficOut;
         public String powerRequests;
+        public long timeToSleep;
     }
 }

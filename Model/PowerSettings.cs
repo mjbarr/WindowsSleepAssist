@@ -19,6 +19,7 @@ namespace Model
             timer = new Timer();
             timer.Interval = 15000;
             timer.Elapsed += timer_Elapsed;
+            timer.Start();
         }
 
         private void timer_Elapsed(object sender, ElapsedEventArgs e)
