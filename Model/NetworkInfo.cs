@@ -20,7 +20,7 @@ namespace Model
             outboundTraffic = new List<long>();
 
             timer = new Timer();
-            timer.Interval = 15000;
+            timer.Interval = 1000;
             timer.Elapsed += timer_Elapsed;
             timer.Start();
         }
@@ -30,12 +30,12 @@ namespace Model
             inboundTraffic.Add(TrafficIn);
             outboundTraffic.Add(TrafficOut);
 
-            while (inboundTraffic.Count > 4)
+            while (inboundTraffic.Count > 60)
             {
                 inboundTraffic.RemoveAt(0);
             }
 
-            while (outboundTraffic.Count > 4)
+            while (outboundTraffic.Count > 60)
             {
                 outboundTraffic.RemoveAt(0);
             }
@@ -49,7 +49,7 @@ namespace Model
 
         private bool shouldResetSleep()
         {
-            if ((InboundSpeed > 1000000) || (OutboundSpeed > 1000000))
+            if ((InboundSpeed > 100000) || (OutboundSpeed > 100000))
             {
                 return true;
             }
@@ -63,7 +63,7 @@ namespace Model
                 long speed = 0;
                 if (inboundTraffic.Count > 2)
                 {
-                    speed = inboundTraffic[outboundTraffic.Count - 1] - inboundTraffic[0];
+                    speed = (inboundTraffic[outboundTraffic.Count - 1] - inboundTraffic[0]) / inboundTraffic.Count;
                 }
                 return speed;
             }
@@ -76,7 +76,7 @@ namespace Model
                 long speed = 0;
                 if (outboundTraffic.Count > 2)
                 {
-                    speed = outboundTraffic[outboundTraffic.Count - 1] - outboundTraffic[0];
+                    speed = (outboundTraffic[outboundTraffic.Count - 1] - outboundTraffic[0]) / inboundTraffic.Count;
                 }
                 return speed;
             }

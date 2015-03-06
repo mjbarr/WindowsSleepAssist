@@ -38,10 +38,11 @@ namespace Model
                 sleepAssistData.lastWakeTrigger = "Network Traffic";
             }
 
-            DateTime lastInputTime = new DateTime(UserInputMonitor.GetLastInputTime());
-            if (lastInputTime < DateTime.Now.AddSeconds(-15))
+            DateTime lastInputTime = sleepAssistData.lastUserActivityTime;
+            if (lastInputTime.AddMinutes(10) > m_SleepController.TimeGoingToSleep)
             {
-                // m_SleepController.resetSleepTimer(); sleepAssistData.lastWakeTrigger = "User Input";
+                m_SleepController.resetSleepTimer();
+                sleepAssistData.lastWakeTrigger = "User Input";
             }
 
             sleepAssistData.trafficIn = e.inboundSpeed;
@@ -54,7 +55,7 @@ namespace Model
         private void writeToSharedMemory()
         {
             m_sharedMem = new SharedMemory(@"Global\wsa_trafficIn");
-            m_sharedMem.WriteObjectToMMF(@"Global\wsa_trafficIn", sleepAssistData);
+            m_sharedMem.WriteObjectToMMF(@"Global\wsa_trafficIn", sleepAssistData, true);
         }
 
         private void readFromSharedMemory()
@@ -63,7 +64,7 @@ namespace Model
             sleepAssistData = (SleepAssistData)m_sharedMem.ReadObjectFromMMF(@"Global\wsa_trafficIn");
         }
 
-        public string getPowerCfgRequests()
+        public PowerCfgRequestsData getPowerCfgRequests()
         {
             return m_PowerSettings.PowerCfgRequests;
         }

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.IO.MemoryMappedFiles;
 using System.Runtime.Serialization.Formatters.Binary;
+using System.Security.Principal;
 using System.Threading;
 
 namespace WcfInterface
@@ -52,14 +53,43 @@ namespace WcfInterface
         //    smLock.Close();
         //}
 
-        public void WriteObjectToMMF(string mmfFile, object objectData)
+        public void WriteObjectToMMF(string mmfFile, object objectData, bool createNewMmf)
         {
             // Convert .NET object to byte array
             byte[] buffer = ObjectToByteArray(objectData);
+            MemoryMappedFile mmf;
+            if (createNewMmf)
+            {
+                var security = new MemoryMappedFileSecurity();
 
-            // Create a new memory mapped file
-            MemoryMappedFile mmf =
-                    MemoryMappedFile.CreateOrOpen(mmfFile, buffer.Length, MemoryMappedFileAccess.ReadWriteExecute);
+                security.AddAccessRule(new System.Security.AccessControl.AccessRule<MemoryMappedFileRights>(
+                    new SecurityIdentifier(WellKnownSidType.WorldSid, null),
+                    MemoryMappedFileRights.FullControl, System.Security.AccessControl.AccessControlType.Allow));
+                security.AddAccessRule(new System.Security.AccessControl.AccessRule<MemoryMappedFileRights>(
+                    new SecurityIdentifier(WellKnownSidType.AnonymousSid, null),
+                    MemoryMappedFileRights.FullControl, System.Security.AccessControl.AccessControlType.Allow));
+                security.AddAccessRule(new System.Security.AccessControl.AccessRule<MemoryMappedFileRights>(
+                    new SecurityIdentifier(WellKnownSidType.NullSid, null),
+                    MemoryMappedFileRights.FullControl, System.Security.AccessControl.AccessControlType.Allow));
+
+                // printing the SID from the screensaver shows that we are running as Local Service
+                security.AddAccessRule(new System.Security.AccessControl.AccessRule<MemoryMappedFileRights>(
+                    new SecurityIdentifier(WellKnownSidType.LocalServiceSid, null),
+                    MemoryMappedFileRights.FullControl, System.Security.AccessControl.AccessControlType.Allow));
+                // Create a new memory mapped file
+                mmf = MemoryMappedFile.CreateOrOpen(mmfFile, buffer.Length, MemoryMappedFileAccess.ReadWriteExecute, MemoryMappedFileOptions.None, security, System.IO.HandleInheritability.Inheritable);
+            }
+            else
+            {
+                try
+                {
+                    mmf = MemoryMappedFile.OpenExisting(mmfFile, MemoryMappedFileRights.ReadWriteExecute, System.IO.HandleInheritability.Inheritable);
+                }
+                catch (FileNotFoundException)
+                {
+                    return;
+                }
+            }
 
             bool mutexCreated;
             Mutex mutex = new Mutex(true, "mmfMutex", out mutexCreated);
@@ -79,6 +109,7 @@ namespace WcfInterface
             {
                 // Get a handle to an existing memory mapped file
                 MemoryMappedFile mmf = MemoryMappedFile.OpenExisting(mmfFile, MemoryMappedFileRights.Read);
+
                 bool mutexCreated;
                 mutex = new Mutex(true, "mmfMutex", out mutexCreated);
                 mutex.WaitOne();
@@ -156,8 +187,23 @@ namespace WcfInterface
     {
         public long trafficIn;
         public long trafficOut;
-        public string powerRequests;
+        public PowerCfgRequestsData powerRequests;
         public DateTime timeGoingToSleep;
         public string lastWakeTrigger;
+        public DateTime lastUserActivityTime;
+    }
+
+    [Serializable]
+    public class PowerCfgRequestsData
+    {
+        public List<string> DisplayRequests { get; set; }
+
+        public List<string> SystemRequests { get; set; }
+
+        public List<string> AwayModeRequests { get; set; }
+
+        public List<string> ExecutionRequests { get; set; }
+
+        public List<string> PerfBoostRequests { get; set; }
     }
 }

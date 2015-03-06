@@ -31,17 +31,6 @@
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(SleepAssistMain));
             this.lblPowerCfg = new System.Windows.Forms.Label();
             this.gpBoxPowerCfg = new System.Windows.Forms.GroupBox();
-            this.requestsPanel = new System.Windows.Forms.FlowLayoutPanel();
-            this.lblDisplayRequests = new System.Windows.Forms.Label();
-            this.listboxSystemRequests = new NishBox.MultiLineListBox();
-            this.lblSystemRequests = new System.Windows.Forms.Label();
-            this.listBoxDisplayRequests = new NishBox.MultiLineListBox();
-            this.lblAwayModeRequests = new System.Windows.Forms.Label();
-            this.listBoxExecutionRequests = new NishBox.MultiLineListBox();
-            this.lblExecutionRequests = new System.Windows.Forms.Label();
-            this.listBoxAwayModeRequests = new NishBox.MultiLineListBox();
-            this.lblPerfBoostRequests = new System.Windows.Forms.Label();
-            this.listBoxPerBoostRequests = new NishBox.MultiLineListBox();
             this.gpBoxNetworkInfo = new System.Windows.Forms.GroupBox();
             this.gpBoxNetworkInfoOutbound = new System.Windows.Forms.GroupBox();
             this.lblOutboundTraffic = new System.Windows.Forms.Label();
@@ -52,12 +41,23 @@
             this.lblLastWakeTrigger = new System.Windows.Forms.Label();
             this.lblSleepTimerValue = new System.Windows.Forms.Label();
             this.lblSleepTimer = new System.Windows.Forms.Label();
+            this.requestsPanel = new System.Windows.Forms.FlowLayoutPanel();
+            this.listBoxDisplayRequests = new NishBox.MultiLineListBox();
+            this.listBoxSystemRequests = new NishBox.MultiLineListBox();
+            this.ListBoxAwayModeRequests = new NishBox.MultiLineListBox();
+            this.listBoxExecutionRequests = new NishBox.MultiLineListBox();
+            this.listBoxPerBoostRequests = new NishBox.MultiLineListBox();
+            this.lblDisplayRequests = new System.Windows.Forms.Label();
+            this.lblSystemRequests = new System.Windows.Forms.Label();
+            this.lblAwayModeRequests = new System.Windows.Forms.Label();
+            this.lblExecutionRequests = new System.Windows.Forms.Label();
+            this.lblPerfBoostRequests = new System.Windows.Forms.Label();
             this.gpBoxPowerCfg.SuspendLayout();
-            this.requestsPanel.SuspendLayout();
             this.gpBoxNetworkInfo.SuspendLayout();
             this.gpBoxNetworkInfoOutbound.SuspendLayout();
             this.gpBoxNetworkInfoInbound.SuspendLayout();
             this.gpSleepTimer.SuspendLayout();
+            this.requestsPanel.SuspendLayout();
             this.SuspendLayout();
             // 
             // lblPowerCfg
@@ -82,118 +82,6 @@
             this.gpBoxPowerCfg.TabIndex = 2;
             this.gpBoxPowerCfg.TabStop = false;
             this.gpBoxPowerCfg.Text = "Active Requests";
-            // 
-            // requestsPanel
-            // 
-            this.requestsPanel.Controls.Add(this.lblDisplayRequests);
-            this.requestsPanel.Controls.Add(this.listboxSystemRequests);
-            this.requestsPanel.Controls.Add(this.lblSystemRequests);
-            this.requestsPanel.Controls.Add(this.listBoxDisplayRequests);
-            this.requestsPanel.Controls.Add(this.lblAwayModeRequests);
-            this.requestsPanel.Controls.Add(this.listBoxExecutionRequests);
-            this.requestsPanel.Controls.Add(this.lblExecutionRequests);
-            this.requestsPanel.Controls.Add(this.listBoxAwayModeRequests);
-            this.requestsPanel.Controls.Add(this.lblPerfBoostRequests);
-            this.requestsPanel.Controls.Add(this.listBoxPerBoostRequests);
-            this.requestsPanel.Location = new System.Drawing.Point(7, 39);
-            this.requestsPanel.Name = "requestsPanel";
-            this.requestsPanel.Size = new System.Drawing.Size(270, 515);
-            this.requestsPanel.TabIndex = 1;
-            // 
-            // lblDisplayRequests
-            // 
-            this.lblDisplayRequests.AutoSize = true;
-            this.lblDisplayRequests.Location = new System.Drawing.Point(3, 0);
-            this.lblDisplayRequests.Name = "lblDisplayRequests";
-            this.lblDisplayRequests.Size = new System.Drawing.Size(89, 13);
-            this.lblDisplayRequests.TabIndex = 2;
-            this.lblDisplayRequests.Text = "Display Requests";
-            // 
-            // listboxSystemRequests
-            // 
-            this.listboxSystemRequests.DrawMode = System.Windows.Forms.DrawMode.OwnerDrawVariable;
-            this.listboxSystemRequests.FormattingEnabled = true;
-            this.listboxSystemRequests.Location = new System.Drawing.Point(3, 16);
-            this.listboxSystemRequests.Name = "listboxSystemRequests";
-            this.listboxSystemRequests.ScrollAlwaysVisible = true;
-            this.listboxSystemRequests.Size = new System.Drawing.Size(261, 70);
-            this.listboxSystemRequests.TabIndex = 1;
-            // 
-            // lblSystemRequests
-            // 
-            this.lblSystemRequests.AutoSize = true;
-            this.lblSystemRequests.Location = new System.Drawing.Point(3, 89);
-            this.lblSystemRequests.Name = "lblSystemRequests";
-            this.lblSystemRequests.Size = new System.Drawing.Size(89, 13);
-            this.lblSystemRequests.TabIndex = 5;
-            this.lblSystemRequests.Text = "System Requests";
-            // 
-            // listBoxDisplayRequests
-            // 
-            this.listBoxDisplayRequests.DrawMode = System.Windows.Forms.DrawMode.OwnerDrawVariable;
-            this.listBoxDisplayRequests.FormattingEnabled = true;
-            this.listBoxDisplayRequests.Location = new System.Drawing.Point(3, 105);
-            this.listBoxDisplayRequests.Name = "listBoxDisplayRequests";
-            this.listBoxDisplayRequests.ScrollAlwaysVisible = true;
-            this.listBoxDisplayRequests.Size = new System.Drawing.Size(261, 83);
-            this.listBoxDisplayRequests.TabIndex = 0;
-            // 
-            // lblAwayModeRequests
-            // 
-            this.lblAwayModeRequests.AutoSize = true;
-            this.lblAwayModeRequests.Location = new System.Drawing.Point(3, 191);
-            this.lblAwayModeRequests.Name = "lblAwayModeRequests";
-            this.lblAwayModeRequests.Size = new System.Drawing.Size(111, 13);
-            this.lblAwayModeRequests.TabIndex = 6;
-            this.lblAwayModeRequests.Text = "Away Mode Requests";
-            // 
-            // listBoxExecutionRequests
-            // 
-            this.listBoxExecutionRequests.DrawMode = System.Windows.Forms.DrawMode.OwnerDrawVariable;
-            this.listBoxExecutionRequests.FormattingEnabled = true;
-            this.listBoxExecutionRequests.Location = new System.Drawing.Point(3, 207);
-            this.listBoxExecutionRequests.Name = "listBoxExecutionRequests";
-            this.listBoxExecutionRequests.ScrollAlwaysVisible = true;
-            this.listBoxExecutionRequests.Size = new System.Drawing.Size(261, 83);
-            this.listBoxExecutionRequests.TabIndex = 3;
-            // 
-            // lblExecutionRequests
-            // 
-            this.lblExecutionRequests.AutoSize = true;
-            this.lblExecutionRequests.Location = new System.Drawing.Point(3, 293);
-            this.lblExecutionRequests.Name = "lblExecutionRequests";
-            this.lblExecutionRequests.Size = new System.Drawing.Size(102, 13);
-            this.lblExecutionRequests.TabIndex = 7;
-            this.lblExecutionRequests.Text = "Execution Requests";
-            // 
-            // listBoxAwayModeRequests
-            // 
-            this.listBoxAwayModeRequests.DrawMode = System.Windows.Forms.DrawMode.OwnerDrawVariable;
-            this.listBoxAwayModeRequests.FormattingEnabled = true;
-            this.listBoxAwayModeRequests.Location = new System.Drawing.Point(3, 309);
-            this.listBoxAwayModeRequests.Name = "listBoxAwayModeRequests";
-            this.listBoxAwayModeRequests.ScrollAlwaysVisible = true;
-            this.listBoxAwayModeRequests.Size = new System.Drawing.Size(261, 83);
-            this.listBoxAwayModeRequests.TabIndex = 2;
-            // 
-            // lblPerfBoostRequests
-            // 
-            this.lblPerfBoostRequests.AutoSize = true;
-            this.lblPerfBoostRequests.Location = new System.Drawing.Point(3, 395);
-            this.lblPerfBoostRequests.Name = "lblPerfBoostRequests";
-            this.lblPerfBoostRequests.Size = new System.Drawing.Size(101, 13);
-            this.lblPerfBoostRequests.TabIndex = 8;
-            this.lblPerfBoostRequests.Text = "PerfBoost Requests";
-            // 
-            // listBoxPerBoostRequests
-            // 
-            this.listBoxPerBoostRequests.DrawMode = System.Windows.Forms.DrawMode.OwnerDrawVariable;
-            this.listBoxPerBoostRequests.FormattingEnabled = true;
-            this.listBoxPerBoostRequests.Location = new System.Drawing.Point(3, 411);
-            this.listBoxPerBoostRequests.Name = "listBoxPerBoostRequests";
-            this.listBoxPerBoostRequests.ScrollAlwaysVisible = true;
-            this.listBoxPerBoostRequests.Size = new System.Drawing.Size(261, 83);
-            this.listBoxPerBoostRequests.TabIndex = 4;
             // 
             // gpBoxNetworkInfo
             // 
@@ -297,6 +185,118 @@
             this.lblSleepTimer.TabIndex = 0;
             this.lblSleepTimer.Text = "Computer going to sleep in:";
             // 
+            // requestsPanel
+            // 
+            this.requestsPanel.Controls.Add(this.lblDisplayRequests);
+            this.requestsPanel.Controls.Add(this.listBoxSystemRequests);
+            this.requestsPanel.Controls.Add(this.lblSystemRequests);
+            this.requestsPanel.Controls.Add(this.listBoxDisplayRequests);
+            this.requestsPanel.Controls.Add(this.lblAwayModeRequests);
+            this.requestsPanel.Controls.Add(this.listBoxExecutionRequests);
+            this.requestsPanel.Controls.Add(this.lblExecutionRequests);
+            this.requestsPanel.Controls.Add(this.ListBoxAwayModeRequests);
+            this.requestsPanel.Controls.Add(this.lblPerfBoostRequests);
+            this.requestsPanel.Controls.Add(this.listBoxPerBoostRequests);
+            this.requestsPanel.Location = new System.Drawing.Point(7, 39);
+            this.requestsPanel.Name = "requestsPanel";
+            this.requestsPanel.Size = new System.Drawing.Size(270, 515);
+            this.requestsPanel.TabIndex = 1;
+            // 
+            // listBoxDisplayRequests
+            // 
+            this.listBoxDisplayRequests.DrawMode = System.Windows.Forms.DrawMode.OwnerDrawVariable;
+            this.listBoxDisplayRequests.FormattingEnabled = true;
+            this.listBoxDisplayRequests.Location = new System.Drawing.Point(3, 92);
+            this.listBoxDisplayRequests.Name = "listBoxDisplayRequests";
+            this.listBoxDisplayRequests.ScrollAlwaysVisible = true;
+            this.listBoxDisplayRequests.Size = new System.Drawing.Size(261, 70);
+            this.listBoxDisplayRequests.TabIndex = 0;
+            // 
+            // listboxSystemRequests
+            // 
+            this.listBoxSystemRequests.DrawMode = System.Windows.Forms.DrawMode.OwnerDrawVariable;
+            this.listBoxSystemRequests.FormattingEnabled = true;
+            this.listBoxSystemRequests.Location = new System.Drawing.Point(3, 16);
+            this.listBoxSystemRequests.Name = "listboxSystemRequests";
+            this.listBoxSystemRequests.ScrollAlwaysVisible = true;
+            this.listBoxSystemRequests.Size = new System.Drawing.Size(261, 57);
+            this.listBoxSystemRequests.TabIndex = 1;
+            // 
+            // ListBoxAwayModeRequests
+            // 
+            this.ListBoxAwayModeRequests.DrawMode = System.Windows.Forms.DrawMode.OwnerDrawVariable;
+            this.ListBoxAwayModeRequests.FormattingEnabled = true;
+            this.ListBoxAwayModeRequests.Location = new System.Drawing.Point(3, 270);
+            this.ListBoxAwayModeRequests.Name = "ListBoxAwayModeRequests";
+            this.ListBoxAwayModeRequests.ScrollAlwaysVisible = true;
+            this.ListBoxAwayModeRequests.Size = new System.Drawing.Size(261, 70);
+            this.ListBoxAwayModeRequests.TabIndex = 2;
+            // 
+            // listBoxExecutionRequests
+            // 
+            this.listBoxExecutionRequests.DrawMode = System.Windows.Forms.DrawMode.OwnerDrawVariable;
+            this.listBoxExecutionRequests.FormattingEnabled = true;
+            this.listBoxExecutionRequests.Location = new System.Drawing.Point(3, 181);
+            this.listBoxExecutionRequests.Name = "listBoxExecutionRequests";
+            this.listBoxExecutionRequests.ScrollAlwaysVisible = true;
+            this.listBoxExecutionRequests.Size = new System.Drawing.Size(261, 70);
+            this.listBoxExecutionRequests.TabIndex = 3;
+            // 
+            // listBoxPerBoostRequests
+            // 
+            this.listBoxPerBoostRequests.DrawMode = System.Windows.Forms.DrawMode.OwnerDrawVariable;
+            this.listBoxPerBoostRequests.FormattingEnabled = true;
+            this.listBoxPerBoostRequests.Location = new System.Drawing.Point(3, 359);
+            this.listBoxPerBoostRequests.Name = "listBoxPerBoostRequests";
+            this.listBoxPerBoostRequests.ScrollAlwaysVisible = true;
+            this.listBoxPerBoostRequests.Size = new System.Drawing.Size(261, 70);
+            this.listBoxPerBoostRequests.TabIndex = 4;
+            // 
+            // lblDisplayRequests
+            // 
+            this.lblDisplayRequests.AutoSize = true;
+            this.lblDisplayRequests.Location = new System.Drawing.Point(3, 0);
+            this.lblDisplayRequests.Name = "lblDisplayRequests";
+            this.lblDisplayRequests.Size = new System.Drawing.Size(89, 13);
+            this.lblDisplayRequests.TabIndex = 2;
+            this.lblDisplayRequests.Text = "Display Requests";
+            // 
+            // lblSystemRequests
+            // 
+            this.lblSystemRequests.AutoSize = true;
+            this.lblSystemRequests.Location = new System.Drawing.Point(3, 76);
+            this.lblSystemRequests.Name = "lblSystemRequests";
+            this.lblSystemRequests.Size = new System.Drawing.Size(89, 13);
+            this.lblSystemRequests.TabIndex = 5;
+            this.lblSystemRequests.Text = "System Requests";
+            // 
+            // lblAwayModeRequests
+            // 
+            this.lblAwayModeRequests.AutoSize = true;
+            this.lblAwayModeRequests.Location = new System.Drawing.Point(3, 165);
+            this.lblAwayModeRequests.Name = "lblAwayModeRequests";
+            this.lblAwayModeRequests.Size = new System.Drawing.Size(111, 13);
+            this.lblAwayModeRequests.TabIndex = 6;
+            this.lblAwayModeRequests.Text = "Away Mode Requests";
+            // 
+            // lblExecutionRequests
+            // 
+            this.lblExecutionRequests.AutoSize = true;
+            this.lblExecutionRequests.Location = new System.Drawing.Point(3, 254);
+            this.lblExecutionRequests.Name = "lblExecutionRequests";
+            this.lblExecutionRequests.Size = new System.Drawing.Size(102, 13);
+            this.lblExecutionRequests.TabIndex = 7;
+            this.lblExecutionRequests.Text = "Execution Requests";
+            // 
+            // lblPerfBoostRequests
+            // 
+            this.lblPerfBoostRequests.AutoSize = true;
+            this.lblPerfBoostRequests.Location = new System.Drawing.Point(3, 343);
+            this.lblPerfBoostRequests.Name = "lblPerfBoostRequests";
+            this.lblPerfBoostRequests.Size = new System.Drawing.Size(101, 13);
+            this.lblPerfBoostRequests.TabIndex = 8;
+            this.lblPerfBoostRequests.Text = "PerfBoost Requests";
+            // 
             // SleepAssistMain
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -311,8 +311,6 @@
             this.Load += new System.EventHandler(this.SleepAssistMain_Load);
             this.gpBoxPowerCfg.ResumeLayout(false);
             this.gpBoxPowerCfg.PerformLayout();
-            this.requestsPanel.ResumeLayout(false);
-            this.requestsPanel.PerformLayout();
             this.gpBoxNetworkInfo.ResumeLayout(false);
             this.gpBoxNetworkInfoOutbound.ResumeLayout(false);
             this.gpBoxNetworkInfoOutbound.PerformLayout();
@@ -320,6 +318,8 @@
             this.gpBoxNetworkInfoInbound.PerformLayout();
             this.gpSleepTimer.ResumeLayout(false);
             this.gpSleepTimer.PerformLayout();
+            this.requestsPanel.ResumeLayout(false);
+            this.requestsPanel.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -341,13 +341,13 @@
         private System.Windows.Forms.Label lblLastWakeTrigger;
         private System.Windows.Forms.FlowLayoutPanel requestsPanel;
         private System.Windows.Forms.Label lblDisplayRequests;
-        private NishBox.MultiLineListBox listboxSystemRequests;
+        private NishBox.MultiLineListBox listBoxSystemRequests;
         private System.Windows.Forms.Label lblSystemRequests;
         private NishBox.MultiLineListBox listBoxDisplayRequests;
         private System.Windows.Forms.Label lblAwayModeRequests;
         private NishBox.MultiLineListBox listBoxExecutionRequests;
         private System.Windows.Forms.Label lblExecutionRequests;
-        private NishBox.MultiLineListBox listBoxAwayModeRequests;
+        private NishBox.MultiLineListBox ListBoxAwayModeRequests;
         private System.Windows.Forms.Label lblPerfBoostRequests;
         private NishBox.MultiLineListBox listBoxPerBoostRequests;
     }

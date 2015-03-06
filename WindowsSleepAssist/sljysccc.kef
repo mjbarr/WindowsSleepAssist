@@ -93,11 +93,18 @@ namespace WindowsSleepAssist
 
         private void displayPowerCfgRequests()
         {
-            listBoxDisplayRequests.DataSource = sleepAssistData.powerRequests.DisplayRequests;
-            listboxSystemRequests.DataSource = sleepAssistData.powerRequests.SystemRequests;
-            listBoxAwayModeRequests.DataSource = sleepAssistData.powerRequests.AwayModeRequests;
-            listBoxExecutionRequests.DataSource = sleepAssistData.powerRequests.ExecutionRequests;
-            listBoxPerBoostRequests.DataSource = sleepAssistData.powerRequests.PerfBoostRequests;
+            requestsPanel.Controls.Add(getMultilineListBoxFromList(sleepAssistData.powerRequests.DisplayRequests));
+            requestsPanel.Controls.Add(getMultilineListBoxFromList(sleepAssistData.powerRequests.SystemRequests));
+            requestsPanel.Controls.Add(getMultilineListBoxFromList(sleepAssistData.powerRequests.AwayModeRequests));
+            requestsPanel.Controls.Add(getMultilineListBoxFromList(sleepAssistData.powerRequests.ExecutionRequests));
+            requestsPanel.Controls.Add(getMultilineListBoxFromList(sleepAssistData.powerRequests.PerfBoostRequests));
+        }
+
+        private MultiLineListBox getMultilineListBoxFromList(List<string> list)
+        {
+            MultiLineListBox multiLineListBox = new MultiLineListBox();
+            multiLineListBox.DataSource = list;
+            return multiLineListBox;
         }
 
         private void writeToSharedMemory()
