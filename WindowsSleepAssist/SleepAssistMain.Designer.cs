@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(SleepAssistMain));
             this.lblPowerCfg = new System.Windows.Forms.Label();
             this.gpBoxPowerCfg = new System.Windows.Forms.GroupBox();
@@ -52,12 +53,24 @@
             this.lblLastWakeTrigger = new System.Windows.Forms.Label();
             this.lblSleepTimerValue = new System.Windows.Forms.Label();
             this.lblSleepTimer = new System.Windows.Forms.Label();
+            this.bpBoxSettings = new System.Windows.Forms.GroupBox();
+            this.lblMinutes = new System.Windows.Forms.Label();
+            this.chkHibernate = new System.Windows.Forms.CheckBox();
+            this.numMinsToSleep = new System.Windows.Forms.NumericUpDown();
+            this.lblSettingsSleepTime = new System.Windows.Forms.Label();
+            this.notifyIcon = new System.Windows.Forms.NotifyIcon(this.components);
+            this.contextMenuNotifyIcon = new System.Windows.Forms.ContextMenuStrip(this.components);
+            this.notifyIconMenuExit = new System.Windows.Forms.ToolStripMenuItem();
+            this.notifyIconMenuViewDashboard = new System.Windows.Forms.ToolStripMenuItem();
             this.gpBoxPowerCfg.SuspendLayout();
             this.requestsPanel.SuspendLayout();
             this.gpBoxNetworkInfo.SuspendLayout();
             this.gpBoxNetworkInfoOutbound.SuspendLayout();
             this.gpBoxNetworkInfoInbound.SuspendLayout();
             this.gpSleepTimer.SuspendLayout();
+            this.bpBoxSettings.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.numMinsToSleep)).BeginInit();
+            this.contextMenuNotifyIcon.SuspendLayout();
             this.SuspendLayout();
             // 
             // lblPowerCfg
@@ -199,12 +212,12 @@
             // 
             this.gpBoxNetworkInfo.Controls.Add(this.gpBoxNetworkInfoOutbound);
             this.gpBoxNetworkInfo.Controls.Add(this.gpBoxNetworkInfoInbound);
-            this.gpBoxNetworkInfo.Location = new System.Drawing.Point(285, 12);
+            this.gpBoxNetworkInfo.Location = new System.Drawing.Point(291, 118);
             this.gpBoxNetworkInfo.Name = "gpBoxNetworkInfo";
-            this.gpBoxNetworkInfo.Size = new System.Drawing.Size(335, 103);
+            this.gpBoxNetworkInfo.Size = new System.Drawing.Size(255, 103);
             this.gpBoxNetworkInfo.TabIndex = 3;
             this.gpBoxNetworkInfo.TabStop = false;
-            this.gpBoxNetworkInfo.Text = "Network Traffic In Previous 60 Seconds";
+            this.gpBoxNetworkInfo.Text = "Average Network Speed in Previous 60 Seconds";
             // 
             // gpBoxNetworkInfoOutbound
             // 
@@ -252,9 +265,9 @@
             this.gpSleepTimer.Controls.Add(this.lblLastWakeTrigger);
             this.gpSleepTimer.Controls.Add(this.lblSleepTimerValue);
             this.gpSleepTimer.Controls.Add(this.lblSleepTimer);
-            this.gpSleepTimer.Location = new System.Drawing.Point(627, 13);
+            this.gpSleepTimer.Location = new System.Drawing.Point(291, 12);
             this.gpSleepTimer.Name = "gpSleepTimer";
-            this.gpSleepTimer.Size = new System.Drawing.Size(200, 100);
+            this.gpSleepTimer.Size = new System.Drawing.Size(255, 100);
             this.gpSleepTimer.TabIndex = 4;
             this.gpSleepTimer.TabStop = false;
             this.gpSleepTimer.Text = "Time To Sleep";
@@ -297,18 +310,116 @@
             this.lblSleepTimer.TabIndex = 0;
             this.lblSleepTimer.Text = "Computer going to sleep in:";
             // 
+            // bpBoxSettings
+            // 
+            this.bpBoxSettings.Controls.Add(this.lblMinutes);
+            this.bpBoxSettings.Controls.Add(this.chkHibernate);
+            this.bpBoxSettings.Controls.Add(this.numMinsToSleep);
+            this.bpBoxSettings.Controls.Add(this.lblSettingsSleepTime);
+            this.bpBoxSettings.Location = new System.Drawing.Point(291, 462);
+            this.bpBoxSettings.Name = "bpBoxSettings";
+            this.bpBoxSettings.Size = new System.Drawing.Size(200, 100);
+            this.bpBoxSettings.TabIndex = 5;
+            this.bpBoxSettings.TabStop = false;
+            this.bpBoxSettings.Text = "Settings";
+            // 
+            // lblMinutes
+            // 
+            this.lblMinutes.AutoSize = true;
+            this.lblMinutes.Location = new System.Drawing.Point(69, 38);
+            this.lblMinutes.Name = "lblMinutes";
+            this.lblMinutes.Size = new System.Drawing.Size(43, 13);
+            this.lblMinutes.TabIndex = 4;
+            this.lblMinutes.Text = "minutes";
+            // 
+            // chkHibernate
+            // 
+            this.chkHibernate.AutoSize = true;
+            this.chkHibernate.Location = new System.Drawing.Point(9, 57);
+            this.chkHibernate.Name = "chkHibernate";
+            this.chkHibernate.Size = new System.Drawing.Size(177, 17);
+            this.chkHibernate.TabIndex = 3;
+            this.chkHibernate.Text = "Use Hibernate instead of sleep?";
+            this.chkHibernate.UseVisualStyleBackColor = true;
+            this.chkHibernate.CheckedChanged += new System.EventHandler(this.chkHibernate_CheckedChanged);
+            // 
+            // numMinsToSleep
+            // 
+            this.numMinsToSleep.Location = new System.Drawing.Point(9, 31);
+            this.numMinsToSleep.Maximum = new decimal(new int[] {
+            300,
+            0,
+            0,
+            0});
+            this.numMinsToSleep.Minimum = new decimal(new int[] {
+            1,
+            0,
+            0,
+            0});
+            this.numMinsToSleep.Name = "numMinsToSleep";
+            this.numMinsToSleep.Size = new System.Drawing.Size(54, 20);
+            this.numMinsToSleep.TabIndex = 1;
+            this.numMinsToSleep.Value = new decimal(new int[] {
+            1,
+            0,
+            0,
+            0});
+            this.numMinsToSleep.ValueChanged += new System.EventHandler(this.numMinsToSleep_ValueChanged);
+            // 
+            // lblSettingsSleepTime
+            // 
+            this.lblSettingsSleepTime.AutoSize = true;
+            this.lblSettingsSleepTime.Location = new System.Drawing.Point(6, 15);
+            this.lblSettingsSleepTime.Name = "lblSettingsSleepTime";
+            this.lblSettingsSleepTime.Size = new System.Drawing.Size(150, 13);
+            this.lblSettingsSleepTime.TabIndex = 0;
+            this.lblSettingsSleepTime.Text = "Put my computer to sleep after";
+            // 
+            // notifyIcon
+            // 
+            this.notifyIcon.BalloonTipText = "Helping your computer to sleep when its supposed to.";
+            this.notifyIcon.BalloonTipTitle = "Windows Sleep Assist";
+            this.notifyIcon.ContextMenuStrip = this.contextMenuNotifyIcon;
+            this.notifyIcon.Icon = ((System.Drawing.Icon)(resources.GetObject("notifyIcon.Icon")));
+            this.notifyIcon.Text = "WindowsSleepAssistTray";
+            this.notifyIcon.Visible = true;
+            this.notifyIcon.MouseDoubleClick += new System.Windows.Forms.MouseEventHandler(this.notifyIcon_MouseDoubleClick);
+            // 
+            // contextMenuNotifyIcon
+            // 
+            this.contextMenuNotifyIcon.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.notifyIconMenuViewDashboard,
+            this.notifyIconMenuExit});
+            this.contextMenuNotifyIcon.Name = "contextMenuNotifyIcon";
+            this.contextMenuNotifyIcon.Size = new System.Drawing.Size(160, 48);
+            // 
+            // notifyIconMenuExit
+            // 
+            this.notifyIconMenuExit.Name = "notifyIconMenuExit";
+            this.notifyIconMenuExit.Size = new System.Drawing.Size(159, 22);
+            this.notifyIconMenuExit.Text = "Exit";
+            // 
+            // notifyIconMenuViewDashboard
+            // 
+            this.notifyIconMenuViewDashboard.Name = "notifyIconMenuViewDashboard";
+            this.notifyIconMenuViewDashboard.Size = new System.Drawing.Size(159, 22);
+            this.notifyIconMenuViewDashboard.Text = "View Dashboard";
+            // 
             // SleepAssistMain
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(978, 578);
+            this.ClientSize = new System.Drawing.Size(566, 578);
+            this.Controls.Add(this.bpBoxSettings);
             this.Controls.Add(this.gpSleepTimer);
             this.Controls.Add(this.gpBoxNetworkInfo);
             this.Controls.Add(this.gpBoxPowerCfg);
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "SleepAssistMain";
             this.Text = "Windows Sleep Assist";
             this.Load += new System.EventHandler(this.SleepAssistMain_Load);
+            this.Resize += new System.EventHandler(this.SleepAssistMain_Resize);
             this.gpBoxPowerCfg.ResumeLayout(false);
             this.gpBoxPowerCfg.PerformLayout();
             this.requestsPanel.ResumeLayout(false);
@@ -320,6 +431,10 @@
             this.gpBoxNetworkInfoInbound.PerformLayout();
             this.gpSleepTimer.ResumeLayout(false);
             this.gpSleepTimer.PerformLayout();
+            this.bpBoxSettings.ResumeLayout(false);
+            this.bpBoxSettings.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.numMinsToSleep)).EndInit();
+            this.contextMenuNotifyIcon.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -350,6 +465,15 @@
         private NishBox.MultiLineListBox listBoxAwayModeRequests;
         private System.Windows.Forms.Label lblPerfBoostRequests;
         private NishBox.MultiLineListBox listBoxPerBoostRequests;
+        private System.Windows.Forms.GroupBox bpBoxSettings;
+        private System.Windows.Forms.NumericUpDown numMinsToSleep;
+        private System.Windows.Forms.Label lblSettingsSleepTime;
+        private System.Windows.Forms.CheckBox chkHibernate;
+        private System.Windows.Forms.Label lblMinutes;
+        private System.Windows.Forms.NotifyIcon notifyIcon;
+        private System.Windows.Forms.ContextMenuStrip contextMenuNotifyIcon;
+        private System.Windows.Forms.ToolStripMenuItem notifyIconMenuViewDashboard;
+        private System.Windows.Forms.ToolStripMenuItem notifyIconMenuExit;
     }
 }
 

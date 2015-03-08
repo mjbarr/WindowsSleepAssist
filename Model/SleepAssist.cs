@@ -28,28 +28,27 @@ namespace Model
             m_NetworkInfo.NetworkSpeedUpdated += m_NetworkInfo_NetworkSpeedUpdated;
             m_userInputMonitor = new UserInputMonitor();
             oldUserInputTime = 0;
+
+            ConfigSettings configSettings = ConfigSettings.getSettings();
+            m_SleepController.MinsBeforeSleep = configSettings.NoOfMinsUntilSleep;
+            m_SleepController.Hibernate = configSettings.Hibernate;
+
+
         }
         
         private void m_NetworkInfo_NetworkSpeedUpdated(object sender, NetworkSpeedEventArgs e)
         {
             readFromSharedMemory();
-
+            checkMinsBeforeSleep();
+            m_SleepController.Hibernate = sleepAssistData.Hibernate;
             if (e.resetSleepTimer)
             {
                 m_SleepController.resetSleepTimer();
                 sleepAssistData.lastWakeTrigger = "Network Traffic";
             }
-
-            long newUserInputTime = sleepAssistData.lastUserActivityTime;
-            if (newUserInputTime != oldUserInputTime)
-            {
-                m_SleepController.resetSleepTimer();
-                sleepAssistData.lastWakeTrigger = "User Input";
-                oldUserInputTime = newUserInputTime;
-            }
+            checkUserInput();
 
             m_SleepController.AllowSleep = allowSleep();
-
             sleepAssistData.DesktopAppConnected = false;
             sleepAssistData.trafficIn = e.inboundSpeed;
             sleepAssistData.trafficOut = e.outboundSpeed;
@@ -57,6 +56,26 @@ namespace Model
             sleepAssistData.timeGoingToSleep = m_SleepController.TimeGoingToSleep;
             sleepAssistData.MinsBeforeSleep = m_SleepController.MinsBeforeSleep;
             writeToSharedMemory();
+        }
+
+        private void checkUserInput()
+        {
+            long newUserInputTime = sleepAssistData.lastUserActivityTime;
+            if (newUserInputTime != oldUserInputTime)
+            {
+                m_SleepController.resetSleepTimer();
+                sleepAssistData.lastWakeTrigger = "User Input";
+                oldUserInputTime = newUserInputTime;
+            }
+        }
+
+        private void checkMinsBeforeSleep()
+        {
+            if (m_SleepController.MinsBeforeSleep != sleepAssistData.MinsBeforeSleep)
+            {
+                m_SleepController.MinsBeforeSleep = sleepAssistData.MinsBeforeSleep;
+                m_SleepController.resetSleepTimer();
+            }
         }
 
         private bool allowSleep()

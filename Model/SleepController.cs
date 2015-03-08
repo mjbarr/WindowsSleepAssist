@@ -11,11 +11,15 @@ namespace Model
 {
     internal class SleepController
     {
-        private int m_minsToTimeOut;
-        private Timer sleepTimer;
-        private DateTime m_timeGoingToSleep;
+        #region Fields
 
-        public bool AllowSleep { get; set; }
+        private int m_minsToTimeOut;
+        private DateTime m_timeGoingToSleep;
+        private Timer sleepTimer;
+
+        #endregion Fields
+
+        #region Constructors
 
         public SleepController()
         {
@@ -26,9 +30,21 @@ namespace Model
             sleepTimer.Elapsed += sleepTimer_Elapsed;
         }
 
-        private long minsToMilliseconds(int mins)
+        #endregion Constructors
+
+        #region Properties
+
+        public bool AllowSleep { get; set; }
+        public int MinsBeforeSleep
         {
-            return mins * 60 * 1000;
+            get
+            {
+                return m_minsToTimeOut;
+            }
+            set
+            {
+                m_minsToTimeOut = value;
+            }
         }
 
         public DateTime TimeGoingToSleep
@@ -44,6 +60,25 @@ namespace Model
             }
         }
 
+        #endregion Properties
+
+        #region Methods
+
+        [DllImport("PowrProf.dll", CharSet = CharSet.Auto, ExactSpelling = true)]
+        public static extern bool SetSuspendState(bool hiberate, bool forceCritical, bool disableWakeEvent);
+
+        public void resetSleepTimer()
+        {
+            sleepTimer.Stop();
+            sleepTimer.Interval = minsToMilliseconds(m_minsToTimeOut);
+            sleepTimer.Start();
+            TimeGoingToSleep = DateTime.Now.AddMinutes(m_minsToTimeOut);
+        }
+
+        private long minsToMilliseconds(int mins)
+        {
+            return mins * 60 * 1000;
+        }
         private void sleepTimer_Elapsed(object sender, ElapsedEventArgs e)
         {
             // Standby
@@ -60,17 +95,8 @@ namespace Model
             }
         }
 
-        [DllImport("PowrProf.dll", CharSet = CharSet.Auto, ExactSpelling = true)]
-        public static extern bool SetSuspendState(bool hiberate, bool forceCritical, bool disableWakeEvent);
+        #endregion Methods
 
-        public void resetSleepTimer()
-        {
-            sleepTimer.Stop();
-            sleepTimer.Interval = minsToMilliseconds(m_minsToTimeOut);
-            sleepTimer.Start();
-            TimeGoingToSleep = DateTime.Now.AddMinutes(m_minsToTimeOut);
-        }
-
-        public int MinsBeforeSleep { get { return m_minsToTimeOut; } }
+        public bool Hibernate { get; set; }
     }
 }

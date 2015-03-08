@@ -43,6 +43,7 @@ namespace WcfInterface
                     MemoryMappedFileRights.FullControl, System.Security.AccessControl.AccessControlType.Allow));
                 // Create a new memory mapped file
                 mmf = MemoryMappedFile.CreateOrOpen(mmfFile, buffer.Length, MemoryMappedFileAccess.ReadWriteExecute, MemoryMappedFileOptions.None, security, System.IO.HandleInheritability.Inheritable);
+                
             }
             else
             {
@@ -134,8 +135,8 @@ namespace WcfInterface
         public string lastWakeTrigger;
         public long lastUserActivityTime;
         public bool DesktopAppConnected;
-
-        public int MinsBeforeSleep { get; set; }
+        public int MinsBeforeSleep;
+        public bool Hibernate;
     }
 
     [Serializable]
