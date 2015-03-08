@@ -65,6 +65,11 @@ namespace Model
                 {
                     speed = (inboundTraffic[outboundTraffic.Count - 1] - inboundTraffic[0]) / inboundTraffic.Count;
                 }
+                if (speed < 0)
+                {
+                    inboundTraffic.Clear();
+                    speed = 0;
+                }
                 return speed;
             }
         }
@@ -77,6 +82,12 @@ namespace Model
                 if (outboundTraffic.Count > 2)
                 {
                     speed = (outboundTraffic[outboundTraffic.Count - 1] - outboundTraffic[0]) / inboundTraffic.Count;
+                }
+
+                if (speed < 0)
+                {
+                    outboundTraffic.Clear();
+                    speed = 0;
                 }
                 return speed;
             }

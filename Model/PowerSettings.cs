@@ -12,7 +12,6 @@ namespace Model
 {
     public class PowerSettings
     {
-        private string requests;
         private PowerCfgRequestsData powerData;
 
         public PowerSettings()
@@ -79,11 +78,11 @@ namespace Model
                 WindowsPrincipal principal = new WindowsPrincipal(user);
                 isAdmin = principal.IsInRole(WindowsBuiltInRole.Administrator);
             }
-            catch (UnauthorizedAccessException ex)
+            catch (UnauthorizedAccessException)
             {
                 isAdmin = false;
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 isAdmin = false;
             }
@@ -96,6 +95,26 @@ namespace Model
             {
                 processRequests();
                 return powerData;
+            }
+        }
+
+        public bool AllowSleep
+        {
+            get
+            {
+                try
+                {
+                    bool displayRequest = powerData.DisplayRequests[0].ToUpper().Contains("NONE.");
+                    bool systemRequest = powerData.SystemRequests[0].ToUpper().Contains("NONE.");
+                    bool awayModeRequest = powerData.AwayModeRequests[0].ToUpper().Contains("NONE.");
+                    bool executionRequest = powerData.ExecutionRequests[0].ToUpper().Contains("NONE.");
+                    bool perfBoostRequest = powerData.PerfBoostRequests[0].ToUpper().Contains("NONE.");
+                    return (displayRequest && systemRequest && awayModeRequest && executionRequest && perfBoostRequest);
+                }
+                catch (NullReferenceException)
+                {
+                    return true;
+                }
             }
         }
     }

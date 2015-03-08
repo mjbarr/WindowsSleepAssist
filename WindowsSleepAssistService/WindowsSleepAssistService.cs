@@ -21,8 +21,6 @@ namespace WindowsSleepAssistService
     {
         #region Fields
 
-        private IContainer m_components;
-        private EventLog m_eventLog;
         private ServiceStatus serviceStatus;
         private SleepAssist sleepAssistController;
 

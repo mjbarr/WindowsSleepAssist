@@ -10,49 +10,14 @@ namespace WcfInterface
 {
     public class SharedMemory
     {
-        private bool clientMode;
-
+        
         // Constructor
         public SharedMemory(string name)
         {
             mmfFile = name;
         }
 
-        // Methods
-        //public bool Open()
-        //{
-        //    try
-        //    {
-        //        // Create named MMF
-        //        if (!clientMode)
-        //        {
-        //            mmf = MemoryMappedFile.CreateOrOpen(smName, smSize);
-        //            // Create accessors to MMF
-        //            accessor = mmf.CreateViewAccessor(0, smSize,
-        //                           MemoryMappedFileAccess.ReadWrite);
-        //        }
-        //        else
-        //        {
-        //            mmf = MemoryMappedFile.CreateOrOpen(smName, smSize);
-        //            //mmf = MemoryMappedFile.OpenExisting(smName);
-        //            // Create accessors to MMF
-        //            accessor = mmf.CreateViewAccessor(0, smSize,
-        //                           MemoryMappedFileAccess.Read);
-        //        }
-
-        // // Create lock smLock = new Mutex(true, @"Global\SM_LOCK", out locked); } catch { return
-        // false; }
-
-        //    return true;
-        //}
-
-        //public void Close()
-        //{
-        //    accessor.Dispose();
-        //    mmf.Dispose();
-        //    smLock.Close();
-        //}
-
+       
         public void WriteObjectToMMF(string mmfFile, object objectData, bool createNewMmf)
         {
             // Convert .NET object to byte array
@@ -156,30 +121,7 @@ namespace WcfInterface
             return obj;
         }
 
-        //public T Data
-        //{
-        //    get
-        //    {
-        //        T dataStruct;
-        //        accessor.Read<T>(0, out dataStruct);
-        //        return dataStruct;
-        //    }
-        //    set
-        //    {
-        //        smLock.WaitOne();
-        //        accessor.Write<T>(0, ref value);
-        //        smLock.ReleaseMutex();
-        //    }
-        //}
-
-        // Data
         private string mmfFile;
-
-        private Mutex smLock;
-        private int smSize;
-        private bool locked;
-        private MemoryMappedFile mmf;
-        private MemoryMappedViewAccessor accessor;
     }
 
     [Serializable]
@@ -190,7 +132,10 @@ namespace WcfInterface
         public PowerCfgRequestsData powerRequests;
         public DateTime timeGoingToSleep;
         public string lastWakeTrigger;
-        public DateTime lastUserActivityTime;
+        public long lastUserActivityTime;
+        public bool DesktopAppConnected;
+
+        public int MinsBeforeSleep { get; set; }
     }
 
     [Serializable]

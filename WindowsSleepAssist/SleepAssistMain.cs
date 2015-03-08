@@ -1,16 +1,5 @@
 ﻿using Model;
-using NishBox;
 using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.IO.MemoryMappedFiles;
-using System.Linq;
-using System.Security.Permissions;
-using System.ServiceModel;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 using WcfInterface;
 
@@ -68,6 +57,11 @@ namespace WindowsSleepAssist
             //}
         }
 
+        private long minsToMilliseconds(int mins)
+        {
+            return mins * 60 * 1000;
+        }
+
         private void timer_Tick(object sender, EventArgs e)
         {
             readFromSharedMemory();
@@ -78,13 +72,10 @@ namespace WindowsSleepAssist
                 string seconds = timeSpan.Seconds.ToString();
                 lblSleepTimerValue.Text = (minutes + ":" + seconds);
             }
+            sleepAssistData.DesktopAppConnected = true;
+            sleepAssistData.lastUserActivityTime = UserInputMonitor.GetLastInputTime();
 
-            if (UserInputMonitor.GetIdleTime() < 1000)
-            {
-                sleepAssistData.lastUserActivityTime = DateTime.Now.AddTicks(-UserInputMonitor.GetLastInputTime());
-                writeToSharedMemory();
-            }
-
+            writeToSharedMemory();
             lblInboundTraffic.Text = BytesToString(sleepAssistData.trafficIn);
             lblOutboundTraffic.Text = BytesToString(sleepAssistData.trafficOut);
             displayPowerCfgRequests();
@@ -93,11 +84,14 @@ namespace WindowsSleepAssist
 
         private void displayPowerCfgRequests()
         {
-            listBoxDisplayRequests.DataSource = sleepAssistData.powerRequests.DisplayRequests;
-            listboxSystemRequests.DataSource = sleepAssistData.powerRequests.SystemRequests;
-            listBoxAwayModeRequests.DataSource = sleepAssistData.powerRequests.AwayModeRequests;
-            listBoxExecutionRequests.DataSource = sleepAssistData.powerRequests.ExecutionRequests;
-            listBoxPerBoostRequests.DataSource = sleepAssistData.powerRequests.PerfBoostRequests;
+            if (sleepAssistData.powerRequests != null)
+            {
+                listBoxDisplayRequests.DataSource = sleepAssistData.powerRequests.DisplayRequests;
+                listboxSystemRequests.DataSource = sleepAssistData.powerRequests.SystemRequests;
+                listBoxAwayModeRequests.DataSource = sleepAssistData.powerRequests.AwayModeRequests;
+                listBoxExecutionRequests.DataSource = sleepAssistData.powerRequests.ExecutionRequests;
+                listBoxPerBoostRequests.DataSource = sleepAssistData.powerRequests.PerfBoostRequests;
+            }
         }
 
         private void writeToSharedMemory()

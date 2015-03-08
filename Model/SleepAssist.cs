@@ -15,7 +15,8 @@ namespace Model
         private SleepAssistData sleepAssistData;
         private SharedMemory m_sharedMem;
         private UserInputMonitor m_userInputMonitor;
-
+        private long oldUserInputTime;
+        
         public SleepAssist()
         {
             sleepAssistData = new SleepAssistData();
@@ -26,8 +27,9 @@ namespace Model
             m_NetworkInfo = new NetworkInfo();
             m_NetworkInfo.NetworkSpeedUpdated += m_NetworkInfo_NetworkSpeedUpdated;
             m_userInputMonitor = new UserInputMonitor();
+            oldUserInputTime = 0;
         }
-
+        
         private void m_NetworkInfo_NetworkSpeedUpdated(object sender, NetworkSpeedEventArgs e)
         {
             readFromSharedMemory();
@@ -38,18 +40,28 @@ namespace Model
                 sleepAssistData.lastWakeTrigger = "Network Traffic";
             }
 
-            DateTime lastInputTime = sleepAssistData.lastUserActivityTime;
-            if (lastInputTime.AddMinutes(10) > m_SleepController.TimeGoingToSleep)
+            long newUserInputTime = sleepAssistData.lastUserActivityTime;
+            if (newUserInputTime != oldUserInputTime)
             {
                 m_SleepController.resetSleepTimer();
                 sleepAssistData.lastWakeTrigger = "User Input";
+                oldUserInputTime = newUserInputTime;
             }
 
+            m_SleepController.AllowSleep = allowSleep();
+
+            sleepAssistData.DesktopAppConnected = false;
             sleepAssistData.trafficIn = e.inboundSpeed;
             sleepAssistData.trafficOut = e.outboundSpeed;
             sleepAssistData.powerRequests = m_PowerSettings.PowerCfgRequests;
             sleepAssistData.timeGoingToSleep = m_SleepController.TimeGoingToSleep;
+            sleepAssistData.MinsBeforeSleep = m_SleepController.MinsBeforeSleep;
             writeToSharedMemory();
+        }
+
+        private bool allowSleep()
+        {
+            return m_PowerSettings.AllowSleep && sleepAssistData.DesktopAppConnected;
         }
 
         private void writeToSharedMemory()

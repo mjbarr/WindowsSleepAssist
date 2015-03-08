@@ -15,9 +15,11 @@ namespace Model
         private Timer sleepTimer;
         private DateTime m_timeGoingToSleep;
 
+        public bool AllowSleep { get; set; }
+
         public SleepController()
         {
-            m_minsToTimeOut = 10;
+            m_minsToTimeOut = 15;
             sleepTimer = new Timer();
             sleepTimer.Interval = minsToMilliseconds(m_minsToTimeOut);
             resetSleepTimer();
@@ -45,7 +47,17 @@ namespace Model
         private void sleepTimer_Elapsed(object sender, ElapsedEventArgs e)
         {
             // Standby
-            SetSuspendState(false, true, true);
+            if (AllowSleep)
+            {
+                SetSuspendState(true, true, false);
+            }
+            else
+            {
+                sleepTimer.Stop();
+                sleepTimer.Interval = minsToMilliseconds(1);
+                sleepTimer.Start();
+                TimeGoingToSleep = DateTime.Now.AddMinutes(1);
+            }
         }
 
         [DllImport("PowrProf.dll", CharSet = CharSet.Auto, ExactSpelling = true)]
@@ -54,8 +66,11 @@ namespace Model
         public void resetSleepTimer()
         {
             sleepTimer.Stop();
+            sleepTimer.Interval = minsToMilliseconds(m_minsToTimeOut);
             sleepTimer.Start();
             TimeGoingToSleep = DateTime.Now.AddMinutes(m_minsToTimeOut);
         }
+
+        public int MinsBeforeSleep { get { return m_minsToTimeOut; } }
     }
 }
