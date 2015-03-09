@@ -47,7 +47,6 @@ namespace Model
                 sleepAssistData.lastWakeTrigger = "Network Traffic";
             }
             checkUserInput();
-
             m_SleepController.AllowSleep = allowSleep();
             sleepAssistData.DesktopAppConnected = false;
             sleepAssistData.trafficIn = e.inboundSpeed;

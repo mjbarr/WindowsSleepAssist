@@ -60,8 +60,8 @@
             this.lblSettingsSleepTime = new System.Windows.Forms.Label();
             this.notifyIcon = new System.Windows.Forms.NotifyIcon(this.components);
             this.contextMenuNotifyIcon = new System.Windows.Forms.ContextMenuStrip(this.components);
-            this.notifyIconMenuExit = new System.Windows.Forms.ToolStripMenuItem();
             this.notifyIconMenuViewDashboard = new System.Windows.Forms.ToolStripMenuItem();
+            this.notifyIconMenuExit = new System.Windows.Forms.ToolStripMenuItem();
             this.gpBoxPowerCfg.SuspendLayout();
             this.requestsPanel.SuspendLayout();
             this.gpBoxNetworkInfo.SuspendLayout();
@@ -393,17 +393,17 @@
             this.contextMenuNotifyIcon.Name = "contextMenuNotifyIcon";
             this.contextMenuNotifyIcon.Size = new System.Drawing.Size(160, 48);
             // 
-            // notifyIconMenuExit
-            // 
-            this.notifyIconMenuExit.Name = "notifyIconMenuExit";
-            this.notifyIconMenuExit.Size = new System.Drawing.Size(159, 22);
-            this.notifyIconMenuExit.Text = "Exit";
-            // 
             // notifyIconMenuViewDashboard
             // 
             this.notifyIconMenuViewDashboard.Name = "notifyIconMenuViewDashboard";
             this.notifyIconMenuViewDashboard.Size = new System.Drawing.Size(159, 22);
             this.notifyIconMenuViewDashboard.Text = "View Dashboard";
+            // 
+            // notifyIconMenuExit
+            // 
+            this.notifyIconMenuExit.Name = "notifyIconMenuExit";
+            this.notifyIconMenuExit.Size = new System.Drawing.Size(159, 22);
+            this.notifyIconMenuExit.Text = "Exit";
             // 
             // SleepAssistMain
             // 
@@ -418,6 +418,7 @@
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "SleepAssistMain";
             this.Text = "Windows Sleep Assist";
+            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.SleepAssistMain_FormClosing);
             this.Load += new System.EventHandler(this.SleepAssistMain_Load);
             this.Resize += new System.EventHandler(this.SleepAssistMain_Resize);
             this.gpBoxPowerCfg.ResumeLayout(false);

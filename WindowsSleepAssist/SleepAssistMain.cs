@@ -1,5 +1,6 @@
 ﻿using Model;
 using System;
+using System.ServiceProcess;
 using System.Windows.Forms;
 using WcfInterface;
 
@@ -7,57 +8,53 @@ namespace WindowsSleepAssist
 {
     public partial class SleepAssistMain : Form
     {
+
         #region Fields
 
-        private SleepAssistData sleepAssistData;
-
+        private ConfigSettings m_ConfigSettings;
         //private SleepAssist sleepAssist;
         private SharedMemory m_sharedMem;
 
-        private ConfigSettings m_ConfigSettings;
+        private SleepAssistData sleepAssistData;
 
         #endregion Fields
 
-        
         #region Constructors
 
         public SleepAssistMain()
         {
-            //sleepAssist = new SleepAssist();
-            //sleepAssist.NetworkSpeedUpdated += sleepAssist_NetworkSpeedUpdated;
             InitializeComponent();
             startTimer();
+
             m_ConfigSettings = ConfigSettings.getSettings();
             chkHibernate.Checked = m_ConfigSettings.Hibernate;
             numMinsToSleep.Value = m_ConfigSettings.NoOfMinsUntilSleep;
 
             notifyIconMenuExit.Click += notifyIconMenuExit_Click;
             notifyIconMenuViewDashboard.Click += notifyIconMenuViewDashboard_Click;
-        
+
         }
 
-        void notifyIconMenuViewDashboard_Click(object sender, EventArgs e)
+        #endregion Constructors
+
+        #region Methods
+
+
+
+        private String BytesToString(long byteCount)
         {
-            this.Show();
-            this.WindowState = FormWindowState.Normal;
+            string[] suf = { "B", "KB", "MB", "GB", "TB", "PB", "EB" }; //Longs run out around EB
+            if (byteCount == 0)
+                return "0" + suf[0];
+            long bytes = Math.Abs(byteCount);
+            int place = Convert.ToInt32(Math.Floor(Math.Log(bytes, 1024)));
+            double num = Math.Round(bytes / Math.Pow(1024, place), 1);
+            return (Math.Sign(byteCount) * num).ToString() + suf[place];
         }
 
-        void notifyIconMenuExit_Click(object sender, EventArgs e)
+        private void chkHibernate_CheckedChanged(object sender, EventArgs e)
         {
-            Application.Exit();
-        }
-
-        private void startTimer()
-        {
-            Timer timer = new Timer();
-            timer.Interval = 1000;
-            timer.Tick += timer_Tick;
-            timer.Start();
-
-            Timer countDownTimer = new Timer();
-            countDownTimer.Interval = 1000;
-            countDownTimer.Tick += countDownTimer_Tick;
-            countDownTimer.Start();
+            m_ConfigSettings.Hibernate = chkHibernate.Checked;
         }
 
         private void countDownTimer_Tick(object sender, EventArgs e)
@@ -78,32 +75,6 @@ namespace WindowsSleepAssist
             //}
         }
 
-        private long minsToMilliseconds(int mins)
-        {
-            return mins * 60 * 1000;
-        }
-
-        private void timer_Tick(object sender, EventArgs e)
-        {
-            readFromSharedMemory();
-            if (sleepAssistData != null && sleepAssistData.timeGoingToSleep != null)
-            {
-                TimeSpan timeSpan = sleepAssistData.timeGoingToSleep.Subtract(DateTime.Now);
-                lblSleepTimerValue.Text = (timeSpan.ToString(@"h\:mm\:ss"));
-            }
-            sleepAssistData.DesktopAppConnected = true;
-            sleepAssistData.lastUserActivityTime = UserInputMonitor.GetLastInputTime();
-
-            sleepAssistData.MinsBeforeSleep = (int)numMinsToSleep.Value;
-            sleepAssistData.Hibernate = chkHibernate.Checked;
-
-            writeToSharedMemory();
-            lblInboundTraffic.Text = BytesToString(sleepAssistData.trafficIn);
-            lblOutboundTraffic.Text = BytesToString(sleepAssistData.trafficOut);
-            displayPowerCfgRequests();
-            lblLastWakeTriggerValue.Text = sleepAssistData.lastWakeTrigger;
-        }
-
         private void displayPowerCfgRequests()
         {
             if (sleepAssistData.powerRequests != null)
@@ -116,31 +87,36 @@ namespace WindowsSleepAssist
             }
         }
 
-        private void writeToSharedMemory()
+        private long minsToMilliseconds(int mins)
         {
-            m_sharedMem = new SharedMemory(@"Global\wsa_trafficIn");
-            m_sharedMem.WriteObjectToMMF(@"Global\wsa_trafficIn", sleepAssistData, false);
+            return mins * 60 * 1000;
+        }
+
+        private void notifyIcon_MouseDoubleClick(object sender, MouseEventArgs e)
+        {
+            this.Show();
+            this.WindowState = FormWindowState.Normal;
+        }
+
+        void notifyIconMenuExit_Click(object sender, EventArgs e)
+        {
+            Application.Exit();
+        }
+
+        void notifyIconMenuViewDashboard_Click(object sender, EventArgs e)
+        {
+            this.Show();
+            this.WindowState = FormWindowState.Normal;
+        }
+        private void numMinsToSleep_ValueChanged(object sender, EventArgs e)
+        {
+            m_ConfigSettings.NoOfMinsUntilSleep = (int)numMinsToSleep.Value;
         }
 
         private void readFromSharedMemory()
         {
             m_sharedMem = new SharedMemory(@"Global\wsa_trafficIn");
             sleepAssistData = (SleepAssistData)m_sharedMem.ReadObjectFromMMF(@"Global\wsa_trafficIn");
-        }
-
-        #endregion Constructors
-
-        #region Methods
-
-        private String BytesToString(long byteCount)
-        {
-            string[] suf = { "B", "KB", "MB", "GB", "TB", "PB", "EB" }; //Longs run out around EB
-            if (byteCount == 0)
-                return "0" + suf[0];
-            long bytes = Math.Abs(byteCount);
-            int place = Convert.ToInt32(Math.Floor(Math.Log(bytes, 1024)));
-            double num = Math.Round(bytes / Math.Pow(1024, place), 1);
-            return (Math.Sign(byteCount) * num).ToString() + suf[place];
         }
 
         private void sleepAssist_NetworkSpeedUpdated(object sender, NetworkSpeedEventArgs e)
@@ -152,23 +128,6 @@ namespace WindowsSleepAssist
         private void SleepAssistMain_Load(object sender, EventArgs e)
         {
             updateUI();
-        }
-
-        private void updateUI()
-        {
-            // lblPowercfgOutput.Text = sleepAssist.getPowerCfgRequests();
-        }
-
-        #endregion Methods
-
-        private void chkHibernate_CheckedChanged(object sender, EventArgs e)
-        {
-            m_ConfigSettings.Hibernate = chkHibernate.Checked;
-        }
-
-        private void numMinsToSleep_ValueChanged(object sender, EventArgs e)
-        {
-            m_ConfigSettings.NoOfMinsUntilSleep = (int)numMinsToSleep.Value;
         }
 
         private void SleepAssistMain_Resize(object sender, EventArgs e)
@@ -184,16 +143,71 @@ namespace WindowsSleepAssist
                 notifyIcon.Visible = false;
             }
         }
-        private void notifyIcon_MouseDoubleClick(object sender, MouseEventArgs e)
+
+        private void startTimer()
         {
-            this.Show();
-            this.WindowState = FormWindowState.Normal;
+            Timer timer = new Timer();
+            timer.Interval = 1000;
+            timer.Tick += timer_Tick;
+            timer.Start();
+
+            Timer countDownTimer = new Timer();
+            countDownTimer.Interval = 1000;
+            countDownTimer.Tick += countDownTimer_Tick;
+            countDownTimer.Start();
+        }
+        private void timer_Tick(object sender, EventArgs e)
+        {
+            readFromSharedMemory();
+            if (sleepAssistData != null && sleepAssistData.timeGoingToSleep != null)
+            {
+                TimeSpan timeSpan = sleepAssistData.timeGoingToSleep.Subtract(DateTime.Now);
+                lblSleepTimerValue.Text = (timeSpan.ToString(@"h\:mm\:ss"));
+            }
+            sleepAssistData.DesktopAppConnected = true;
+            sleepAssistData.lastUserActivityTime = UserInputMonitor.GetLastInputTime();
+
+            sleepAssistData.MinsBeforeSleep = (int)numMinsToSleep.Value;
+            sleepAssistData.Hibernate = chkHibernate.Checked;
+
+
+
+            writeToSharedMemory();
+            lblInboundTraffic.Text = BytesToString(sleepAssistData.trafficIn);
+            lblOutboundTraffic.Text = BytesToString(sleepAssistData.trafficOut);
+            displayPowerCfgRequests();
+            lblLastWakeTriggerValue.Text = sleepAssistData.lastWakeTrigger;
+        }
+        private void updateUI()
+        {
+            // lblPowercfgOutput.Text = sleepAssist.getPowerCfgRequests();
         }
 
+        private void writeToSharedMemory()
+        {
+            m_sharedMem = new SharedMemory(@"Global\wsa_trafficIn");
+            m_sharedMem.WriteObjectToMMF(@"Global\wsa_trafficIn", sleepAssistData, false);
+        }
 
+        #endregion Methods
 
-     
+        private void SleepAssistMain_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            if (e.CloseReason == CloseReason.WindowsShutDown) return;
 
-        
+            DialogResult result = (MessageBox.Show("Closing this application means your computer may not go to sleep.  Are you sure you want to do this?", "Exit Windows Sleep Assist",
+            MessageBoxButtons.YesNo, MessageBoxIcon.Question));
+            
+            switch (result)
+            {
+                case DialogResult.Yes:
+                    break;
+
+                case DialogResult.No:
+                    e.Cancel = true;
+                    break;
+            }
+            
+        }
     }
 }
