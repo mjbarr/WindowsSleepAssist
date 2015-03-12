@@ -49,7 +49,16 @@
             this.gpBoxNetworkInfoInbound = new System.Windows.Forms.GroupBox();
             this.lblInboundTraffic = new System.Windows.Forms.Label();
             this.gpSleepTimer = new System.Windows.Forms.GroupBox();
-            this.lblLastWakeTriggerValue = new System.Windows.Forms.Label();
+            this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
+            this.tableLayoutPanel4 = new System.Windows.Forms.TableLayoutPanel();
+            this.lblRequestsActive = new System.Windows.Forms.Label();
+            this.lblRequestsLastTime = new System.Windows.Forms.Label();
+            this.tableLayoutPanel3 = new System.Windows.Forms.TableLayoutPanel();
+            this.lblNetworkActive = new System.Windows.Forms.Label();
+            this.lblNetworkLastTime = new System.Windows.Forms.Label();
+            this.tableLayoutPanel2 = new System.Windows.Forms.TableLayoutPanel();
+            this.lblUserActive = new System.Windows.Forms.Label();
+            this.lblUserInputLastTime = new System.Windows.Forms.Label();
             this.lblLastWakeTrigger = new System.Windows.Forms.Label();
             this.lblSleepTimerValue = new System.Windows.Forms.Label();
             this.lblSleepTimer = new System.Windows.Forms.Label();
@@ -68,6 +77,10 @@
             this.gpBoxNetworkInfoOutbound.SuspendLayout();
             this.gpBoxNetworkInfoInbound.SuspendLayout();
             this.gpSleepTimer.SuspendLayout();
+            this.tableLayoutPanel1.SuspendLayout();
+            this.tableLayoutPanel4.SuspendLayout();
+            this.tableLayoutPanel3.SuspendLayout();
+            this.tableLayoutPanel2.SuspendLayout();
             this.bpBoxSettings.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.numMinsToSleep)).BeginInit();
             this.contextMenuNotifyIcon.SuspendLayout();
@@ -212,7 +225,7 @@
             // 
             this.gpBoxNetworkInfo.Controls.Add(this.gpBoxNetworkInfoOutbound);
             this.gpBoxNetworkInfo.Controls.Add(this.gpBoxNetworkInfoInbound);
-            this.gpBoxNetworkInfo.Location = new System.Drawing.Point(291, 118);
+            this.gpBoxNetworkInfo.Location = new System.Drawing.Point(291, 272);
             this.gpBoxNetworkInfo.Name = "gpBoxNetworkInfo";
             this.gpBoxNetworkInfo.Size = new System.Drawing.Size(255, 103);
             this.gpBoxNetworkInfo.TabIndex = 3;
@@ -261,35 +274,174 @@
             // 
             // gpSleepTimer
             // 
-            this.gpSleepTimer.Controls.Add(this.lblLastWakeTriggerValue);
+            this.gpSleepTimer.Controls.Add(this.tableLayoutPanel1);
             this.gpSleepTimer.Controls.Add(this.lblLastWakeTrigger);
             this.gpSleepTimer.Controls.Add(this.lblSleepTimerValue);
             this.gpSleepTimer.Controls.Add(this.lblSleepTimer);
             this.gpSleepTimer.Location = new System.Drawing.Point(291, 12);
             this.gpSleepTimer.Name = "gpSleepTimer";
-            this.gpSleepTimer.Size = new System.Drawing.Size(255, 100);
+            this.gpSleepTimer.Size = new System.Drawing.Size(255, 180);
             this.gpSleepTimer.TabIndex = 4;
             this.gpSleepTimer.TabStop = false;
             this.gpSleepTimer.Text = "Time To Sleep";
             // 
-            // lblLastWakeTriggerValue
+            // tableLayoutPanel1
             // 
-            this.lblLastWakeTriggerValue.AutoSize = true;
-            this.lblLastWakeTriggerValue.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblLastWakeTriggerValue.Location = new System.Drawing.Point(9, 77);
-            this.lblLastWakeTriggerValue.Name = "lblLastWakeTriggerValue";
-            this.lblLastWakeTriggerValue.Size = new System.Drawing.Size(145, 20);
-            this.lblLastWakeTriggerValue.TabIndex = 4;
-            this.lblLastWakeTriggerValue.Text = "Requesting Data";
+            this.tableLayoutPanel1.CellBorderStyle = System.Windows.Forms.TableLayoutPanelCellBorderStyle.Outset;
+            this.tableLayoutPanel1.ColumnCount = 2;
+            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
+            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
+            this.tableLayoutPanel1.Controls.Add(this.tableLayoutPanel4, 0, 1);
+            this.tableLayoutPanel1.Controls.Add(this.tableLayoutPanel3, 1, 0);
+            this.tableLayoutPanel1.Controls.Add(this.tableLayoutPanel2, 0, 0);
+            this.tableLayoutPanel1.Location = new System.Drawing.Point(13, 78);
+            this.tableLayoutPanel1.Name = "tableLayoutPanel1";
+            this.tableLayoutPanel1.RowCount = 2;
+            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
+            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
+            this.tableLayoutPanel1.Size = new System.Drawing.Size(236, 96);
+            this.tableLayoutPanel1.TabIndex = 7;
+            // 
+            // tableLayoutPanel4
+            // 
+            this.tableLayoutPanel4.ColumnCount = 1;
+            this.tableLayoutPanel4.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
+            this.tableLayoutPanel4.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
+            this.tableLayoutPanel4.Controls.Add(this.lblRequestsActive, 0, 0);
+            this.tableLayoutPanel4.Controls.Add(this.lblRequestsLastTime, 0, 1);
+            this.tableLayoutPanel4.Location = new System.Drawing.Point(5, 52);
+            this.tableLayoutPanel4.Name = "tableLayoutPanel4";
+            this.tableLayoutPanel4.RowCount = 2;
+            this.tableLayoutPanel4.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
+            this.tableLayoutPanel4.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
+            this.tableLayoutPanel4.Size = new System.Drawing.Size(109, 39);
+            this.tableLayoutPanel4.TabIndex = 6;
+            // 
+            // lblRequestsActive
+            // 
+            this.lblRequestsActive.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.lblRequestsActive.AutoSize = true;
+            this.lblRequestsActive.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblRequestsActive.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
+            this.lblRequestsActive.Location = new System.Drawing.Point(3, 0);
+            this.lblRequestsActive.Name = "lblRequestsActive";
+            this.lblRequestsActive.Size = new System.Drawing.Size(103, 19);
+            this.lblRequestsActive.TabIndex = 6;
+            this.lblRequestsActive.Text = "Requests";
+            this.lblRequestsActive.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
+            // lblRequestsLastTime
+            // 
+            this.lblRequestsLastTime.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.lblRequestsLastTime.AutoSize = true;
+            this.lblRequestsLastTime.Location = new System.Drawing.Point(3, 19);
+            this.lblRequestsLastTime.Name = "lblRequestsLastTime";
+            this.lblRequestsLastTime.Size = new System.Drawing.Size(103, 20);
+            this.lblRequestsLastTime.TabIndex = 7;
+            this.lblRequestsLastTime.Text = "lblRequestsLastTime";
+            this.lblRequestsLastTime.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.lblRequestsLastTime.Visible = false;
+            // 
+            // tableLayoutPanel3
+            // 
+            this.tableLayoutPanel3.ColumnCount = 1;
+            this.tableLayoutPanel3.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
+            this.tableLayoutPanel3.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
+            this.tableLayoutPanel3.Controls.Add(this.lblNetworkActive, 0, 0);
+            this.tableLayoutPanel3.Controls.Add(this.lblNetworkLastTime, 0, 1);
+            this.tableLayoutPanel3.Location = new System.Drawing.Point(122, 5);
+            this.tableLayoutPanel3.Name = "tableLayoutPanel3";
+            this.tableLayoutPanel3.RowCount = 2;
+            this.tableLayoutPanel3.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
+            this.tableLayoutPanel3.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
+            this.tableLayoutPanel3.Size = new System.Drawing.Size(109, 39);
+            this.tableLayoutPanel3.TabIndex = 6;
+            // 
+            // lblNetworkActive
+            // 
+            this.lblNetworkActive.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.lblNetworkActive.AutoSize = true;
+            this.lblNetworkActive.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblNetworkActive.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
+            this.lblNetworkActive.Location = new System.Drawing.Point(3, 0);
+            this.lblNetworkActive.Name = "lblNetworkActive";
+            this.lblNetworkActive.Size = new System.Drawing.Size(103, 19);
+            this.lblNetworkActive.TabIndex = 5;
+            this.lblNetworkActive.Text = "Network";
+            this.lblNetworkActive.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
+            // lblNetworkLastTime
+            // 
+            this.lblNetworkLastTime.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.lblNetworkLastTime.AutoSize = true;
+            this.lblNetworkLastTime.Location = new System.Drawing.Point(3, 19);
+            this.lblNetworkLastTime.Name = "lblNetworkLastTime";
+            this.lblNetworkLastTime.Size = new System.Drawing.Size(103, 20);
+            this.lblNetworkLastTime.TabIndex = 6;
+            this.lblNetworkLastTime.Text = "lblNetworkLastTime";
+            this.lblNetworkLastTime.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.lblNetworkLastTime.Visible = false;
+            // 
+            // tableLayoutPanel2
+            // 
+            this.tableLayoutPanel2.ColumnCount = 1;
+            this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
+            this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
+            this.tableLayoutPanel2.Controls.Add(this.lblUserActive, 0, 0);
+            this.tableLayoutPanel2.Controls.Add(this.lblUserInputLastTime, 0, 1);
+            this.tableLayoutPanel2.Location = new System.Drawing.Point(5, 5);
+            this.tableLayoutPanel2.Name = "tableLayoutPanel2";
+            this.tableLayoutPanel2.RowCount = 2;
+            this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
+            this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
+            this.tableLayoutPanel2.Size = new System.Drawing.Size(109, 39);
+            this.tableLayoutPanel2.TabIndex = 7;
+            // 
+            // lblUserActive
+            // 
+            this.lblUserActive.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.lblUserActive.AutoSize = true;
+            this.lblUserActive.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblUserActive.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
+            this.lblUserActive.Location = new System.Drawing.Point(3, 0);
+            this.lblUserActive.Name = "lblUserActive";
+            this.lblUserActive.Size = new System.Drawing.Size(103, 19);
+            this.lblUserActive.TabIndex = 4;
+            this.lblUserActive.Text = "User Input";
+            this.lblUserActive.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
+            // lblUserInputLastTime
+            // 
+            this.lblUserInputLastTime.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.lblUserInputLastTime.AutoSize = true;
+            this.lblUserInputLastTime.Location = new System.Drawing.Point(3, 19);
+            this.lblUserInputLastTime.Name = "lblUserInputLastTime";
+            this.lblUserInputLastTime.Size = new System.Drawing.Size(103, 20);
+            this.lblUserInputLastTime.TabIndex = 6;
+            this.lblUserInputLastTime.Text = "lblUserInputLastTime";
+            this.lblUserInputLastTime.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.lblUserInputLastTime.Visible = false;
             // 
             // lblLastWakeTrigger
             // 
             this.lblLastWakeTrigger.AutoSize = true;
             this.lblLastWakeTrigger.Location = new System.Drawing.Point(10, 62);
             this.lblLastWakeTrigger.Name = "lblLastWakeTrigger";
-            this.lblLastWakeTrigger.Size = new System.Drawing.Size(138, 13);
+            this.lblLastWakeTrigger.Size = new System.Drawing.Size(214, 13);
             this.lblLastWakeTrigger.TabIndex = 3;
-            this.lblLastWakeTrigger.Text = "Latest activity to reset timer:";
+            this.lblLastWakeTrigger.Text = "Whats been keeping your computer awake:";
             // 
             // lblSleepTimerValue
             // 
@@ -432,6 +584,13 @@
             this.gpBoxNetworkInfoInbound.PerformLayout();
             this.gpSleepTimer.ResumeLayout(false);
             this.gpSleepTimer.PerformLayout();
+            this.tableLayoutPanel1.ResumeLayout(false);
+            this.tableLayoutPanel4.ResumeLayout(false);
+            this.tableLayoutPanel4.PerformLayout();
+            this.tableLayoutPanel3.ResumeLayout(false);
+            this.tableLayoutPanel3.PerformLayout();
+            this.tableLayoutPanel2.ResumeLayout(false);
+            this.tableLayoutPanel2.PerformLayout();
             this.bpBoxSettings.ResumeLayout(false);
             this.bpBoxSettings.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.numMinsToSleep)).EndInit();
@@ -453,7 +612,7 @@
         private System.Windows.Forms.GroupBox gpSleepTimer;
         private System.Windows.Forms.Label lblSleepTimerValue;
         private System.Windows.Forms.Label lblSleepTimer;
-        private System.Windows.Forms.Label lblLastWakeTriggerValue;
+        private System.Windows.Forms.Label lblUserActive;
         private System.Windows.Forms.Label lblLastWakeTrigger;
         private System.Windows.Forms.FlowLayoutPanel requestsPanel;
         private System.Windows.Forms.Label lblDisplayRequests;
@@ -475,6 +634,15 @@
         private System.Windows.Forms.ContextMenuStrip contextMenuNotifyIcon;
         private System.Windows.Forms.ToolStripMenuItem notifyIconMenuViewDashboard;
         private System.Windows.Forms.ToolStripMenuItem notifyIconMenuExit;
+        private System.Windows.Forms.TableLayoutPanel tableLayoutPanel1;
+        private System.Windows.Forms.Label lblNetworkActive;
+        private System.Windows.Forms.Label lblRequestsActive;
+        private System.Windows.Forms.TableLayoutPanel tableLayoutPanel3;
+        private System.Windows.Forms.Label lblNetworkLastTime;
+        private System.Windows.Forms.TableLayoutPanel tableLayoutPanel2;
+        private System.Windows.Forms.Label lblUserInputLastTime;
+        private System.Windows.Forms.TableLayoutPanel tableLayoutPanel4;
+        private System.Windows.Forms.Label lblRequestsLastTime;
     }
 }
 

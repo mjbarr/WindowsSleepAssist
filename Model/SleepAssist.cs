@@ -44,17 +44,25 @@ namespace Model
             if (e.resetSleepTimer)
             {
                 m_SleepController.resetSleepTimer();
-                sleepAssistData.lastWakeTrigger = "Network Traffic";
+                sleepAssistData.TimeOfNetworkActivity = DateTime.Now;
             }
-            checkUserInput();
-            m_SleepController.AllowSleep = allowSleep();
-            sleepAssistData.DesktopAppConnected = false;
             sleepAssistData.trafficIn = e.inboundSpeed;
             sleepAssistData.trafficOut = e.outboundSpeed;
+
+            checkOtherDetectors();
+            writeToSharedMemory();
+        }
+
+        private void checkOtherDetectors()
+        {
+            m_SleepController.AllowSleep = allowSleep();
+            sleepAssistData.DesktopAppConnected = false;
+
+            checkUserInput();
+
             sleepAssistData.powerRequests = m_PowerSettings.PowerCfgRequests;
             sleepAssistData.timeGoingToSleep = m_SleepController.TimeGoingToSleep;
             sleepAssistData.MinsBeforeSleep = m_SleepController.MinsBeforeSleep;
-            writeToSharedMemory();
         }
 
         private void checkUserInput()
@@ -63,7 +71,7 @@ namespace Model
             if (newUserInputTime != oldUserInputTime)
             {
                 m_SleepController.resetSleepTimer();
-                sleepAssistData.lastWakeTrigger = "User Input";
+                sleepAssistData.TimeOfUserInput = DateTime.Now;
                 oldUserInputTime = newUserInputTime;
             }
         }
@@ -79,6 +87,11 @@ namespace Model
 
         private bool allowSleep()
         {
+            if (!m_PowerSettings.AllowSleep)
+            {
+                sleepAssistData.TimeOfRequests = DateTime.Now;
+            }
+
             return m_PowerSettings.AllowSleep && sleepAssistData.DesktopAppConnected;
         }
 

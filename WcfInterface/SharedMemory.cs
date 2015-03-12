@@ -137,6 +137,9 @@ namespace WcfInterface
         public bool DesktopAppConnected;
         public int MinsBeforeSleep;
         public bool Hibernate;
+        public DateTime TimeOfUserInput;
+        public DateTime TimeOfNetworkActivity;
+        public DateTime TimeOfRequests;
     }
 
     [Serializable]

@@ -1,5 +1,8 @@
 ﻿using Model;
+using NishBox;
 using System;
+using System.Collections.Generic;
+using System.Drawing;
 using System.ServiceProcess;
 using System.Windows.Forms;
 using WcfInterface;
@@ -32,7 +35,6 @@ namespace WindowsSleepAssist
 
             notifyIconMenuExit.Click += notifyIconMenuExit_Click;
             notifyIconMenuViewDashboard.Click += notifyIconMenuViewDashboard_Click;
-
         }
 
         #endregion Constructors
@@ -79,13 +81,39 @@ namespace WindowsSleepAssist
         {
             if (sleepAssistData.powerRequests != null)
             {
-                listBoxDisplayRequests.DataSource = sleepAssistData.powerRequests.DisplayRequests;
-                listboxSystemRequests.DataSource = sleepAssistData.powerRequests.SystemRequests;
-                listBoxAwayModeRequests.DataSource = sleepAssistData.powerRequests.AwayModeRequests;
-                listBoxExecutionRequests.DataSource = sleepAssistData.powerRequests.ExecutionRequests;
-                listBoxPerBoostRequests.DataSource = sleepAssistData.powerRequests.PerfBoostRequests;
+                syncItemsInListBox(listBoxDisplayRequests, sleepAssistData.powerRequests.DisplayRequests);
+                syncItemsInListBox(listboxSystemRequests, sleepAssistData.powerRequests.SystemRequests);
+                syncItemsInListBox(listBoxAwayModeRequests, sleepAssistData.powerRequests.AwayModeRequests);
+                syncItemsInListBox(listBoxExecutionRequests, sleepAssistData.powerRequests.ExecutionRequests);
+                syncItemsInListBox(listBoxPerBoostRequests, sleepAssistData.powerRequests.PerfBoostRequests);
             }
         }
+
+
+        private void syncItemsInListBox(MultiLineListBox listbox, List<string> items)
+        {
+            try
+            {
+                List<string> list = new List<string>(items);
+                foreach (string item in listbox.Items)
+                {
+                    if (!list.Contains(item))
+                    {
+                        listbox.Items.Remove(item);
+                    }
+                }
+
+                foreach (string item in list)
+                {
+                    if (!listbox.Items.Contains(item))
+                    {
+                        listbox.Items.Add(item);
+                    }
+                }
+            }
+            catch (InvalidOperationException) { }
+        }
+
 
         private long minsToMilliseconds(int mins)
         {
@@ -159,28 +187,69 @@ namespace WindowsSleepAssist
         private void timer_Tick(object sender, EventArgs e)
         {
             readFromSharedMemory();
-            if (sleepAssistData != null && sleepAssistData.timeGoingToSleep != null)
-            {
-                TimeSpan timeSpan = sleepAssistData.timeGoingToSleep.Subtract(DateTime.Now);
-                lblSleepTimerValue.Text = (timeSpan.ToString(@"h\:mm\:ss"));
-            }
+
             sleepAssistData.DesktopAppConnected = true;
             sleepAssistData.lastUserActivityTime = UserInputMonitor.GetLastInputTime();
 
             sleepAssistData.MinsBeforeSleep = (int)numMinsToSleep.Value;
             sleepAssistData.Hibernate = chkHibernate.Checked;
 
+            updateUI();
 
 
             writeToSharedMemory();
-            lblInboundTraffic.Text = BytesToString(sleepAssistData.trafficIn);
-            lblOutboundTraffic.Text = BytesToString(sleepAssistData.trafficOut);
-            displayPowerCfgRequests();
-            lblLastWakeTriggerValue.Text = sleepAssistData.lastWakeTrigger;
+
         }
         private void updateUI()
         {
-            // lblPowercfgOutput.Text = sleepAssist.getPowerCfgRequests();
+            if (sleepAssistData != null)
+            {
+                if (sleepAssistData.timeGoingToSleep != null)
+                {
+                    TimeSpan timeSpan = sleepAssistData.timeGoingToSleep.Subtract(DateTime.Now);
+                    lblSleepTimerValue.Text = (timeSpan.ToString(@"h\:mm\:ss"));
+                }
+                lblInboundTraffic.Text = BytesToString(sleepAssistData.trafficIn);
+                lblOutboundTraffic.Text = BytesToString(sleepAssistData.trafficOut);
+                displayPowerCfgRequests();
+
+                setActivityIndicator(lblUserActive, lblUserInputLastTime, sleepAssistData.TimeOfUserInput);
+                setActivityIndicator(lblNetworkActive, lblNetworkLastTime, sleepAssistData.TimeOfNetworkActivity);
+                setActivityIndicator(lblRequestsActive, lblRequestsLastTime, sleepAssistData.TimeOfRequests);
+            }
+        }
+
+        private void setActivityIndicator(Label lblComponentActive, Label lblLastTime, DateTime lastActivityTime)
+        {
+            if (DateTime.Now.Subtract(lastActivityTime).Minutes < sleepAssistData.MinsBeforeSleep)
+            {
+                lblLastTime.Text = getNumberOfMinutesAgo(lastActivityTime);
+                lblComponentActive.ForeColor = Color.Black;
+                lblLastTime.Visible = true;
+            }
+            else
+            {
+                lblLastTime.Visible = false;
+                lblComponentActive.ForeColor = Color.DarkGray;
+            }
+        }
+
+        private string getNumberOfMinutesAgo(DateTime time)
+        {
+            int minutes = DateTime.Now.Subtract(time).Minutes;
+            string result;
+            if (minutes < 1)
+            {
+                result = "Just Now";
+            } else if (minutes == 1){
+                result = "1 minute ago";
+            }
+            else
+            {
+                result = minutes + " minutes ago";
+            }
+
+            return result;
         }
 
         private void writeToSharedMemory()
@@ -197,7 +266,7 @@ namespace WindowsSleepAssist
 
             DialogResult result = (MessageBox.Show("Closing this application means your computer may not go to sleep.  Are you sure you want to do this?", "Exit Windows Sleep Assist",
             MessageBoxButtons.YesNo, MessageBoxIcon.Question));
-            
+
             switch (result)
             {
                 case DialogResult.Yes:
@@ -207,7 +276,9 @@ namespace WindowsSleepAssist
                     e.Cancel = true;
                     break;
             }
-            
+
         }
     }
+
+
 }
