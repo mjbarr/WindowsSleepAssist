@@ -7,7 +7,7 @@
 ; (To generate a new GUID, click Tools | Generate GUID inside the IDE.)
 AppId={{BD39E7F4-5E26-43FE-8CAC-A5C022556140}
 AppName=Windows Sleep Assist
-AppVersion=0.1.1
+AppVersion=0.1.2
 ;AppVerName=Windows Sleep Assist 0.1.1
 AppPublisherURL=https://github.com/mjbarr/WindowsSleepAssist
 AppSupportURL=https://github.com/mjbarr/WindowsSleepAssist
