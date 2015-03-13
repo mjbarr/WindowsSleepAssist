@@ -37,9 +37,9 @@
     <ApplicationManifest>app.manifest</ApplicationManifest>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="MultiLineListBox, Version=1.0.947.40946, Culture=neutral">
+    <Reference Include="MultiLineListBox, Version=1.0.5549.39991, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\MultiLineListBox\bin\Debug\MultiLineListBox.dll</HintPath>
+      <HintPath>.\MultiLineListBox.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
