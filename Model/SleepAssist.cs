@@ -15,6 +15,7 @@ namespace Model
         private SleepAssistData sleepAssistData;
         private SharedMemory m_sharedMem;
         private UserInputMonitor m_userInputMonitor;
+        CpuMonitor m_cpuMonitor;
         private long oldUserInputTime;
         
         public SleepAssist()
@@ -27,6 +28,7 @@ namespace Model
             m_NetworkInfo = new NetworkInfo();
             m_NetworkInfo.NetworkSpeedUpdated += m_NetworkInfo_NetworkSpeedUpdated;
             m_userInputMonitor = new UserInputMonitor();
+            m_cpuMonitor = new CpuMonitor();
             oldUserInputTime = 0;
 
             ConfigSettings configSettings = ConfigSettings.getSettings();
@@ -55,7 +57,7 @@ namespace Model
 
         private void checkOtherDetectors()
         {
-            m_SleepController.AllowSleep = allowSleep();
+            m_SleepController.AllowSleep = allowSleep() && checkCpuActivity();
             sleepAssistData.DesktopAppConnected = false;
 
             checkUserInput();
@@ -74,6 +76,15 @@ namespace Model
                 sleepAssistData.TimeOfUserInput = DateTime.Now;
                 oldUserInputTime = newUserInputTime;
             }
+        }
+
+        private bool checkCpuActivity()
+        {
+            float cpuActivity;
+            bool resetDueToCpuActivity = m_cpuMonitor.isCpuMonitorOverThreshold(out cpuActivity);
+            sleepAssistData.CpuActivity = cpuActivity;
+            return resetDueToCpuActivity;
+ 
         }
 
         private void checkMinsBeforeSleep()
