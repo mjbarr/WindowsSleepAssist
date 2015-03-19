@@ -29,6 +29,7 @@ namespace Model
             m_NetworkInfo.NetworkSpeedUpdated += m_NetworkInfo_NetworkSpeedUpdated;
             m_userInputMonitor = new UserInputMonitor();
             m_cpuMonitor = new CpuMonitor();
+            m_cpuMonitor.CpuThreshold = 20;
             oldUserInputTime = 0;
 
             ConfigSettings configSettings = ConfigSettings.getSettings();
@@ -57,10 +58,11 @@ namespace Model
 
         private void checkOtherDetectors()
         {
-            m_SleepController.AllowSleep = allowSleep() && checkCpuActivity();
+            m_SleepController.AllowSleep = allowSleep();
             sleepAssistData.DesktopAppConnected = false;
 
             checkUserInput();
+            checkCpuActivity();
 
             sleepAssistData.powerRequests = m_PowerSettings.PowerCfgRequests;
             sleepAssistData.timeGoingToSleep = m_SleepController.TimeGoingToSleep;
@@ -80,9 +82,14 @@ namespace Model
 
         private bool checkCpuActivity()
         {
-            float cpuActivity;
+            double cpuActivity;
             bool resetDueToCpuActivity = m_cpuMonitor.isCpuMonitorOverThreshold(out cpuActivity);
             sleepAssistData.CpuActivity = cpuActivity;
+            if (resetDueToCpuActivity)
+            {
+                m_SleepController.resetSleepTimer();
+                sleepAssistData.TimeOfCpuActivity = DateTime.Now;
+            }
             return resetDueToCpuActivity;
  
         }

@@ -50,6 +50,9 @@
             this.lblInboundTraffic = new System.Windows.Forms.Label();
             this.gpSleepTimer = new System.Windows.Forms.GroupBox();
             this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
+            this.tableLayoutPanel5 = new System.Windows.Forms.TableLayoutPanel();
+            this.lblCpuActive = new System.Windows.Forms.Label();
+            this.lblCpuLastTime = new System.Windows.Forms.Label();
             this.tableLayoutPanel4 = new System.Windows.Forms.TableLayoutPanel();
             this.lblRequestsActive = new System.Windows.Forms.Label();
             this.lblRequestsLastTime = new System.Windows.Forms.Label();
@@ -71,6 +74,8 @@
             this.contextMenuNotifyIcon = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.notifyIconMenuViewDashboard = new System.Windows.Forms.ToolStripMenuItem();
             this.notifyIconMenuExit = new System.Windows.Forms.ToolStripMenuItem();
+            this.groupCpuActivity = new System.Windows.Forms.GroupBox();
+            this.lblCpuActivity = new System.Windows.Forms.Label();
             this.gpBoxPowerCfg.SuspendLayout();
             this.requestsPanel.SuspendLayout();
             this.gpBoxNetworkInfo.SuspendLayout();
@@ -78,12 +83,14 @@
             this.gpBoxNetworkInfoInbound.SuspendLayout();
             this.gpSleepTimer.SuspendLayout();
             this.tableLayoutPanel1.SuspendLayout();
+            this.tableLayoutPanel5.SuspendLayout();
             this.tableLayoutPanel4.SuspendLayout();
             this.tableLayoutPanel3.SuspendLayout();
             this.tableLayoutPanel2.SuspendLayout();
             this.bpBoxSettings.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.numMinsToSleep)).BeginInit();
             this.contextMenuNotifyIcon.SuspendLayout();
+            this.groupCpuActivity.SuspendLayout();
             this.SuspendLayout();
             // 
             // lblPowerCfg
@@ -225,7 +232,7 @@
             // 
             this.gpBoxNetworkInfo.Controls.Add(this.gpBoxNetworkInfoOutbound);
             this.gpBoxNetworkInfo.Controls.Add(this.gpBoxNetworkInfoInbound);
-            this.gpBoxNetworkInfo.Location = new System.Drawing.Point(291, 272);
+            this.gpBoxNetworkInfo.Location = new System.Drawing.Point(291, 198);
             this.gpBoxNetworkInfo.Name = "gpBoxNetworkInfo";
             this.gpBoxNetworkInfo.Size = new System.Drawing.Size(255, 103);
             this.gpBoxNetworkInfo.TabIndex = 3;
@@ -291,6 +298,7 @@
             this.tableLayoutPanel1.ColumnCount = 2;
             this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
             this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
+            this.tableLayoutPanel1.Controls.Add(this.tableLayoutPanel5, 1, 1);
             this.tableLayoutPanel1.Controls.Add(this.tableLayoutPanel4, 0, 1);
             this.tableLayoutPanel1.Controls.Add(this.tableLayoutPanel3, 1, 0);
             this.tableLayoutPanel1.Controls.Add(this.tableLayoutPanel2, 0, 0);
@@ -301,6 +309,51 @@
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
             this.tableLayoutPanel1.Size = new System.Drawing.Size(236, 96);
             this.tableLayoutPanel1.TabIndex = 7;
+            // 
+            // tableLayoutPanel5
+            // 
+            this.tableLayoutPanel5.ColumnCount = 1;
+            this.tableLayoutPanel5.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
+            this.tableLayoutPanel5.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
+            this.tableLayoutPanel5.Controls.Add(this.lblCpuActive, 0, 0);
+            this.tableLayoutPanel5.Controls.Add(this.lblCpuLastTime, 0, 1);
+            this.tableLayoutPanel5.Location = new System.Drawing.Point(122, 52);
+            this.tableLayoutPanel5.Name = "tableLayoutPanel5";
+            this.tableLayoutPanel5.RowCount = 2;
+            this.tableLayoutPanel5.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
+            this.tableLayoutPanel5.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
+            this.tableLayoutPanel5.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
+            this.tableLayoutPanel5.Size = new System.Drawing.Size(109, 39);
+            this.tableLayoutPanel5.TabIndex = 8;
+            // 
+            // lblCpuActive
+            // 
+            this.lblCpuActive.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.lblCpuActive.AutoSize = true;
+            this.lblCpuActive.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblCpuActive.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
+            this.lblCpuActive.Location = new System.Drawing.Point(3, 0);
+            this.lblCpuActive.Name = "lblCpuActive";
+            this.lblCpuActive.Size = new System.Drawing.Size(103, 19);
+            this.lblCpuActive.TabIndex = 6;
+            this.lblCpuActive.Text = "CPU";
+            this.lblCpuActive.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
+            // lblCpuLastTime
+            // 
+            this.lblCpuLastTime.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.lblCpuLastTime.AutoSize = true;
+            this.lblCpuLastTime.Location = new System.Drawing.Point(3, 19);
+            this.lblCpuLastTime.Name = "lblCpuLastTime";
+            this.lblCpuLastTime.Size = new System.Drawing.Size(103, 20);
+            this.lblCpuLastTime.TabIndex = 7;
+            this.lblCpuLastTime.Text = "lblCpuLastTime";
+            this.lblCpuLastTime.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.lblCpuLastTime.Visible = false;
             // 
             // tableLayoutPanel4
             // 
@@ -314,6 +367,7 @@
             this.tableLayoutPanel4.RowCount = 2;
             this.tableLayoutPanel4.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
             this.tableLayoutPanel4.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
+            this.tableLayoutPanel4.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
             this.tableLayoutPanel4.Size = new System.Drawing.Size(109, 39);
             this.tableLayoutPanel4.TabIndex = 6;
             // 
@@ -557,11 +611,32 @@
             this.notifyIconMenuExit.Size = new System.Drawing.Size(159, 22);
             this.notifyIconMenuExit.Text = "Exit";
             // 
+            // groupCpuActivity
+            // 
+            this.groupCpuActivity.Controls.Add(this.lblCpuActivity);
+            this.groupCpuActivity.Location = new System.Drawing.Point(295, 309);
+            this.groupCpuActivity.Name = "groupCpuActivity";
+            this.groupCpuActivity.Size = new System.Drawing.Size(123, 48);
+            this.groupCpuActivity.TabIndex = 6;
+            this.groupCpuActivity.TabStop = false;
+            this.groupCpuActivity.Text = "Average CPU Usage";
+            // 
+            // lblCpuActivity
+            // 
+            this.lblCpuActivity.AutoSize = true;
+            this.lblCpuActivity.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblCpuActivity.Location = new System.Drawing.Point(5, 16);
+            this.lblCpuActivity.Name = "lblCpuActivity";
+            this.lblCpuActivity.Size = new System.Drawing.Size(98, 20);
+            this.lblCpuActivity.TabIndex = 1;
+            this.lblCpuActivity.Text = "Calculating";
+            // 
             // SleepAssistMain
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(566, 578);
+            this.Controls.Add(this.groupCpuActivity);
             this.Controls.Add(this.bpBoxSettings);
             this.Controls.Add(this.gpSleepTimer);
             this.Controls.Add(this.gpBoxNetworkInfo);
@@ -585,6 +660,8 @@
             this.gpSleepTimer.ResumeLayout(false);
             this.gpSleepTimer.PerformLayout();
             this.tableLayoutPanel1.ResumeLayout(false);
+            this.tableLayoutPanel5.ResumeLayout(false);
+            this.tableLayoutPanel5.PerformLayout();
             this.tableLayoutPanel4.ResumeLayout(false);
             this.tableLayoutPanel4.PerformLayout();
             this.tableLayoutPanel3.ResumeLayout(false);
@@ -595,6 +672,8 @@
             this.bpBoxSettings.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.numMinsToSleep)).EndInit();
             this.contextMenuNotifyIcon.ResumeLayout(false);
+            this.groupCpuActivity.ResumeLayout(false);
+            this.groupCpuActivity.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -643,6 +722,11 @@
         private System.Windows.Forms.Label lblUserInputLastTime;
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanel4;
         private System.Windows.Forms.Label lblRequestsLastTime;
+        private System.Windows.Forms.GroupBox groupCpuActivity;
+        private System.Windows.Forms.Label lblCpuActivity;
+        private System.Windows.Forms.TableLayoutPanel tableLayoutPanel5;
+        private System.Windows.Forms.Label lblCpuActive;
+        private System.Windows.Forms.Label lblCpuLastTime;
     }
 }
 
