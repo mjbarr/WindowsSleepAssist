@@ -59,23 +59,6 @@ namespace WindowsSleepAssist
             m_ConfigSettings.Hibernate = chkHibernate.Checked;
         }
 
-        private void countDownTimer_Tick(object sender, EventArgs e)
-        {
-            //if (sleepAssistData != null && sleepAssistData.timeGoingToSleep != null)
-            //{
-            //    TimeSpan timeSpan = sleepAssistData.timeGoingToSleep.Subtract(DateTime.Now);
-            //    string minutes = timeSpan.Minutes.ToString();
-            //    string seconds = timeSpan.Seconds.ToString();
-            //    lblSleepTimerValue.Text = (minutes + ":" + seconds);
-            //}
-
-            //if (UserInputMonitor.GetIdleTime() < 1000)
-            //{
-            //    readFromSharedMemory();
-            //    sleepAssistData.lastUserActivityTime = DateTime.Now.AddTicks(-UserInputMonitor.GetLastInputTime());
-            //    writeToSharedMemory();
-            //}
-        }
 
         private void displayPowerCfgRequests()
         {
@@ -181,7 +164,6 @@ namespace WindowsSleepAssist
 
             Timer countDownTimer = new Timer();
             countDownTimer.Interval = 1000;
-            countDownTimer.Tick += countDownTimer_Tick;
             countDownTimer.Start();
         }
         private void timer_Tick(object sender, EventArgs e)
@@ -213,9 +195,12 @@ namespace WindowsSleepAssist
                 lblOutboundTraffic.Text = BytesToString(sleepAssistData.trafficOut);
                 displayPowerCfgRequests();
 
+                lblCpuActivity.Text = sleepAssistData.CpuActivity.ToString() + "%";
+
                 setActivityIndicator(lblUserActive, lblUserInputLastTime, sleepAssistData.TimeOfUserInput);
                 setActivityIndicator(lblNetworkActive, lblNetworkLastTime, sleepAssistData.TimeOfNetworkActivity);
                 setActivityIndicator(lblRequestsActive, lblRequestsLastTime, sleepAssistData.TimeOfRequests);
+                setActivityIndicator(lblCpuActive, lblCpuLastTime, sleepAssistData.TimeOfCpuActivity);
             }
         }
 
@@ -237,11 +222,25 @@ namespace WindowsSleepAssist
         private string getNumberOfMinutesAgo(DateTime time)
         {
             int minutes = DateTime.Now.Subtract(time).Minutes;
+            int seconds = DateTime.Now.Subtract(time).Seconds;
             string result;
             if (minutes < 1)
             {
-                result = "Just Now";
-            } else if (minutes == 1){
+                if (seconds < 15)
+                {
+                    result = "Just Now";
+                }
+                else if (seconds < 30)
+                {
+                    result = "15 seconds ago";
+                }
+                else
+                {
+                    result = "30 seconds ago";
+                }
+            }
+            else if (minutes == 1)
+            {
                 result = "1 minute ago";
             }
             else
