@@ -140,6 +140,8 @@ namespace WcfInterface
         public DateTime TimeOfUserInput;
         public DateTime TimeOfNetworkActivity;
         public DateTime TimeOfRequests;
+        public double CpuActivity;
+        public DateTime TimeOfCpuActivity;
     }
 
     [Serializable]

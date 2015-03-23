@@ -46,6 +46,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ConfigSettings.cs" />
+    <Compile Include="CpuMonitor.cs" />
     <Compile Include="NetworkInfo.cs" />
     <Compile Include="PowerSettings.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
